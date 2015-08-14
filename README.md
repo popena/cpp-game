@@ -2,8 +2,9 @@
 
 2D game writte in C++.
 
+# TODO
 
-# Future plans
+* Fix Makefile to build from correct folder
 
-* Multiplayer support
-* add more...
+* Add support for multiplayer
+* Add sound support (?)
