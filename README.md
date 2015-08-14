@@ -1,6 +1,6 @@
 # cpp-game
 
-2D game writte in C++.
+2D game written in C++.
 
 # TODO
 
