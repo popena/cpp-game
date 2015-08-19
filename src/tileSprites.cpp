@@ -12,24 +12,29 @@ tileSprites::tileSprites(SDL_Renderer *ren)
 	this->DIRT_PARTICLE.load(ren, "Images/dirt_particle.png");
 }
 
-Sprite* tileSprites::getSprite(int id)
+Sprite *tileSprites::getSprite(int id)
 {
 	switch (id) {
 	case STONEID:
 		return &this->STONE;
 		break;
+
 	case DIRTID:
 		return &this->DIRT;
 		break;
+
 	case AIRID:
 		return &this->AIR;
 		break;
+
 	case TNTID:
 		return &this->TNT;
 		break;
+
 	case STONE_PARTICLEID:
 		return &this->STONE_PARTICLE;
 		break;
+
 	case DIRT_PARTICLEID:
 		return &this->DIRT_PARTICLE;
 		break;

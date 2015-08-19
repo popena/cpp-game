@@ -14,6 +14,6 @@ class tileSprites {
 		Sprite DIRT_PARTICLE;
 
 		tileSprites(SDL_Renderer *ren);
-		Sprite* getSprite(int id);
+		Sprite *getSprite(int id);
 };
 #endif

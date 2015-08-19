@@ -2,6 +2,8 @@
 #include "tile.h"
 #include "tileSprites.h"
 
+//TODO: Make functions cache-friendly
+//This is a multi-file update
 
 Map::Map(tileSprites *sprites) 
 {

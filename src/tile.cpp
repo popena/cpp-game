@@ -32,14 +32,23 @@ bool Tile::isBomb()
 int Tile::getMaxHealth()
 {
 	int hp = 1;
-	if (type == AIRID)
-		hp = 1;
-	else if (type == STONEID)
-		hp = 100;
-	else if (type == DIRTID)
-		hp = 25;
-	else if (type == TNTID)
-		hp = 500;
+	switch (type) {
+		case AIRID:
+			hp = 1;
+			break;
+
+		case STONEID:
+			hp = 100;
+			break;
+
+		case DIRTID:
+			hp = 25;
+			break;
+
+		case TNTID:
+			hp = 500;
+			break;
+	}
 	return hp;
 }
 
@@ -82,6 +91,7 @@ void Tile::takeDamage(int dmg)
 	}
 }
 
+//TODO: make cache-friendlier
 void Tile::explode(int bombSize)
 {
     for (int y = 0; y < bombSize; y++) {
