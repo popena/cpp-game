@@ -31,25 +31,50 @@ void Player::handleEvent(const SDL_Event &e, int type)
 {
 	int scancode = e.key.keysym.scancode;
 	if (type == 0) { // keydown
-		if (scancode == SDL_SCANCODE_W)
-			wDown = true;
-		else if (scancode == SDL_SCANCODE_D) 
-			dDown = true;
-		else if (scancode == SDL_SCANCODE_S) 
-			sDown = true;
-		else if (scancode == SDL_SCANCODE_A) 
-			aDown = true;
-		else if (scancode == SDL_SCANCODE_R) 
-			m->tiles[x][y]->changeType(TNTID);
+		switch (scancode) {
+			case SDL_SCANCODE_W:
+				wDown = true;
+				break;
+
+			case SDL_SCANCODE_D:
+				dDown = true;
+				break;
+
+			case SDL_SCANCODE_S:
+				sDown = true;
+				break;
+
+			case SDL_SCANCODE_A:
+				aDown = true;
+				break;
+
+			case SDL_SCANCODE_R:
+				m->tiles[x][y]->changeType(TNTID);
+				break;
+		}
+
 	} else if (type == 1) { // keyup
-		if (scancode == SDL_SCANCODE_W)
-			wDown = false;
-		else if (scancode == SDL_SCANCODE_D)
-			dDown = false;
-		else if (scancode == SDL_SCANCODE_S)
-			sDown = false;
-		else if (scancode == SDL_SCANCODE_A)
-			aDown = false;
+		switch (scancode) {
+			case SDL_SCANCODE_W:
+				wDown = false;
+				break;
+
+			case SDL_SCANCODE_D:
+				dDown = false;
+				break;
+
+			case SDL_SCANCODE_S:
+				sDown = false;
+				break;
+
+			case SDL_SCANCODE_A:
+				aDown = false;
+				break;
+
+			case SDL_SCANCODE_R:
+				m->tiles[x][y]->changeType(TNTID);
+				break;
+		}
 	}
 }
 
@@ -72,14 +97,11 @@ void Player::update()
 {
 	if(wDown) {
 		move(0, -1);
-	}
-	if(dDown) { 
+	} if(dDown) { 
 		move(1, 0);
-	}
-	if (sDown) {
+	} if (sDown) {
 		move(0, 1);
-	}
-	if (aDown) {
+	} if (aDown) {
 		move(-1, 0);
 	}
 }
