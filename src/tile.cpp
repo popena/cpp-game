@@ -91,7 +91,6 @@ void Tile::takeDamage(int dmg)
 	}
 }
 
-//TODO: make cache-friendlier
 void Tile::explode(int bombSize)
 {
     for (int y = 0; y < bombSize; y++) {

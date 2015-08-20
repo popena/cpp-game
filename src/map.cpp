@@ -2,9 +2,6 @@
 #include "tile.h"
 #include "tileSprites.h"
 
-//TODO: Make functions cache-friendly
-//This is a multi-file update
-
 Map::Map(tileSprites *sprites) 
 {
 	init(sprites);
@@ -12,8 +9,8 @@ Map::Map(tileSprites *sprites)
 
 Map::~Map()
 {
-	for (int y = 0; y < mapHeight; y++) {
-		for (int x = 0; x < mapWidth; x++) {
+	for (int x = 0; x < mapWidth; x++) {
+		for (int y = 0; y < mapHeight; y++) {
 			delete tiles[x][y];
 		}
 	}
@@ -21,8 +18,8 @@ Map::~Map()
 
 void Map::init(tileSprites *sprites)
 {
-	for (int y = 0; y < mapHeight; y++) {
-		for (int x = 0; x < mapWidth; x++) {
+	for (int x = 0; x < mapWidth; x++) {
+		for (int y = 0; y < mapHeight; y++) {
 			if (x + y > mapHeight / 1.2) {
 				Tile *t = new Tile(x, y, sprites, STONEID, this);
 				tiles[x][y] = t;
@@ -46,15 +43,15 @@ void Map::update()
 {
 	for (int y = 0; y < mapHeight; y++) {
 		for (int x = 0; x < mapWidth; x++) {
-			tiles[x][y]->update();
+			tiles[y][x]->update();
 		}
 	}
 }
 
 void Map::draw(SDL_Renderer *ren)
 {
-	for (int y = 0; y < mapHeight; y++) {
-		for (int x = 0; x < mapWidth; x++){
+	for (int x = 0; x < mapWidth; x++){
+		for (int y = 0; y < mapHeight; y++) {
 			tiles[x][y]->draw(ren);
 		}
 	}
