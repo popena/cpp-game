@@ -33,14 +33,6 @@ void Sprite::draw(SDL_Renderer *ren, const SDL_Rect *pos)
 void Sprite::draw(SDL_Renderer *ren, const SDL_Rect *pos, double angle)
 {
         SDL_RenderCopyEx(ren, spriteTex, NULL, pos, angle, NULL, SDL_FLIP_NONE);
-/* int SDL_RenderCopyEx(SDL_Renderer*          renderer, */
-/*                      SDL_Texture*           texture, */
-/*                      const SDL_Rect*        srcrect, */
-/*                      const SDL_Rect*        dstrect, */
-/*                      const double           angle, */
-/*                      const SDL_Point*       center, */
-/*                      const SDL_RendererFlip flip) */
-
 }
 
 void Sprite::draw(SDL_Renderer *ren, const SDL_Rect *pos, char r, char g, char b)
