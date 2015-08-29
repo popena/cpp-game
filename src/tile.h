@@ -23,7 +23,9 @@ class Tile {
 		void resetHealth();
 		void createDamageParticle();
 		void explode(int bombSize);
+                void drawCorners(SDL_Renderer *ren);
 	private:
+                void drawDamage(SDL_Renderer *ren, const SDL_Rect &rect, const float &mod);
 		tileSprites *sprites;
 		Map *m;
 };

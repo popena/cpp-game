@@ -6,6 +6,13 @@
 
 class tileSprites {
 	public:
+		Sprite DAMAGE_1;
+		Sprite DAMAGE_2;
+		Sprite DAMAGE_3;
+
+		Sprite SIDE;
+		Sprite CORNER;
+                
 		Sprite STONE;
 		Sprite DIRT;
 		Sprite AIR;

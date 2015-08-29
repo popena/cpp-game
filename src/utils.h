@@ -5,8 +5,10 @@
 
 
 const int TILE_SIZE = 16;
-const int WIDTH = TILE_SIZE * 50;
-const int HEIGHT = TILE_SIZE * 35;
+const int WIDTH_TILES = 50;
+const int HEIGHT_TILES = 35;
+const int WIDTH = TILE_SIZE * WIDTH_TILES;
+const int HEIGHT = TILE_SIZE * HEIGHT_TILES;
 enum tiles {
 	AIRID,
 	STONEID,

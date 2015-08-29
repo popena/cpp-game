@@ -18,6 +18,7 @@ class Map {
 		void draw(SDL_Renderer *);
 		void update();
 		bool realTile(int x, int y);
+                Tile* getTile(int x, int y);
 	private:
 };
 #endif

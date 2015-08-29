@@ -39,6 +39,14 @@ bool Map::realTile(int x, int y)
 	return (x >= 0 && y >= 0 && x < mapWidth && y < mapHeight);
 }
 
+Tile* Map::getTile(int x, int y)
+{
+        if (realTile(x, y))
+                return tiles[x][y];
+        else
+                return NULL;
+}
+
 void Map::update()
 {
 	for (int y = 0; y < mapHeight; y++) {

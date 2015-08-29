@@ -77,15 +77,15 @@ void Tile::takeDamage(int dmg)
 	if (dmg <= 0)
         return;
 	if (!isBomb() && this->type != AIRID) {
-        if (rand() % (25 / dmg + 1) == 0) {
-            createDamageParticle();
-        }
+                if (rand() % (25 / dmg + 1) == 0) {
+                    createDamageParticle();
+                }
 	}
 	if (this->type != AIRID)
 		this->health -= dmg;
 	if (this->health < 0) {
 		if (isBomb()) {
-            explode(16);
+                        explode(16);
 		}
 		this->changeType(AIRID);
 	}
@@ -108,6 +108,51 @@ void Tile::explode(int bombSize)
     }
 }
 
+void Tile::drawDamage(SDL_Renderer *ren, const SDL_Rect &rect, const float &mod)
+{
+        if (mod<=0.3)
+                sprites->DAMAGE_3.draw(ren, &rect);
+        else if (mod<=0.6)
+                sprites->DAMAGE_2.draw(ren, &rect);
+        else if (mod<=0.9)
+                sprites->DAMAGE_1.draw(ren, &rect);
+}
+
+void Tile::drawCorners(SDL_Renderer *ren)
+{
+        if (isBomb())
+                return;
+	SDL_Rect rect;
+	rect.x = x * TILE_SIZE;
+	rect.y = y * TILE_SIZE;
+	rect.w = TILE_SIZE;
+	rect.h = TILE_SIZE;
+        bool airDown = (y > 0 && m->getTile(this->x, this->y - 1)->type == AIRID);
+        bool airTop = (y < HEIGHT_TILES - 1 && m->getTile(this->x, this->y + 1)->type == AIRID);
+        bool airRight = (x > 0 && m->getTile(this->x - 1, this->y)->type == AIRID);
+        bool airLeft = (x < WIDTH_TILES - 1 && m->getTile(this->x + 1, this->y)->type == AIRID);
+        if (airDown) {
+                sprites->SIDE.draw(ren, &rect, 0.0);
+                if (airRight) 
+                        sprites->CORNER.draw(ren, &rect, 0.0);
+        }
+        if (airTop) {
+                sprites->SIDE.draw(ren, &rect, 180.0);
+                if (airLeft) 
+                        sprites->CORNER.draw(ren, &rect, 180.0);
+        }
+        if (airRight) {
+                sprites->SIDE.draw(ren, &rect, 270.0);
+                if (airTop) 
+                        sprites->CORNER.draw(ren, &rect, 270.0);
+        }
+        if (airLeft) {
+                sprites->SIDE.draw(ren, &rect, 90.0);
+                if (airDown) 
+                        sprites->CORNER.draw(ren, &rect, 90.0);
+        }
+}
+
 void Tile::draw(SDL_Renderer *ren)
 {
 	SDL_Rect rect;
@@ -118,11 +163,15 @@ void Tile::draw(SDL_Renderer *ren)
 	Sprite *sprite = sprites->getSprite(this->type);
 	float mod = health / (float)getMaxHealth();
 	if (mod != 1) {
-		if (isBomb())
+		if (isBomb()) {
 			sprite->draw(ren, &rect, 255, 255 * mod, 255 * mod);
-		else
-			sprite->draw(ren, &rect, 255 * mod, 255 * mod, 255 * mod);
+                } else {
+			sprite->draw(ren, &rect);
+                        drawDamage(ren, rect, mod);
+                }
 	} else {
 		sprite->draw(ren, &rect);
 	}
+        if (this->type != AIRID)
+                drawCorners(ren);
 }
