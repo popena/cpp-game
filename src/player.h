@@ -16,6 +16,7 @@ class Player {
 		SDL_Rect pos;
 		int x;
 		int y;
+		char direction;
 		bool wDown;
 		bool dDown;
 		bool sDown;

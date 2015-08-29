@@ -24,7 +24,7 @@ void Player::draw(SDL_Renderer *ren)
 {
 	pos.x = x * TILE_SIZE;
 	pos.y = y * TILE_SIZE;
-	sprite.draw(ren, &pos);
+	sprite.draw(ren, &pos, (double)direction * 90);
 }
 
 void Player::handleEvent(const SDL_Event &e, int type)
@@ -97,11 +97,15 @@ void Player::update()
 {
 	if(wDown) {
 		move(0, -1);
+                direction = 0;
 	} if(dDown) { 
 		move(1, 0);
+                direction = 1;
 	} if (sDown) {
 		move(0, 1);
+                direction = 2;
 	} if (aDown) {
 		move(-1, 0);
+                direction = 3;
 	}
 }
