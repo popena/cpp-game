@@ -98,7 +98,7 @@ void Map::update()
 {
 	for (int y = 0; y < mapHeight; y++) {
 		for (int x = 0; x < mapWidth; x++) {
-			tiles[y][x]->update();
+			tiles[x][y]->update();
 		}
 	}
 }

@@ -72,7 +72,6 @@ void Player::handleEvent(const SDL_Event &e, int type)
 				break;
 
 			case SDL_SCANCODE_R:
-				m->tiles[x][y]->changeType(TNTID);
 				break;
 		}
 	}
