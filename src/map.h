@@ -19,6 +19,9 @@ class Map {
 		void update();
 		bool realTile(int x, int y);
                 Tile* getTile(int x, int y);
+                void createBlob(int ox, int oy, int size, int type);
+                bool nextTo(int ox, int oy, int tile, int range);
 	private:
+                
 };
 #endif

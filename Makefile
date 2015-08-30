@@ -4,7 +4,7 @@ LIBS = -lSDL2 -lSDL2_image
 
 SOURCES = $(wildcard src/*.cpp)
 OBJECTS = $(patsubst %.cpp, %.o, $(SOURCES))
-TARGET = src/main
+TARGET = main
 
 all: $(TARGET)
 
