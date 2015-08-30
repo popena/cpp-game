@@ -120,8 +120,6 @@ void Tile::drawDamage(SDL_Renderer *ren, const SDL_Rect &rect, const float &mod)
 
 void Tile::drawCorners(SDL_Renderer *ren)
 {
-        if (isBomb())
-                return;
 	SDL_Rect rect;
 	rect.x = x * TILE_SIZE;
 	rect.y = y * TILE_SIZE;
@@ -172,6 +170,6 @@ void Tile::draw(SDL_Renderer *ren)
 	} else {
 		sprite->draw(ren, &rect);
 	}
-        if (this->type != AIRID)
+        if (this->type != AIRID && !isBomb())
                 drawCorners(ren);
 }
