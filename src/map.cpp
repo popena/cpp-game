@@ -45,7 +45,7 @@ void Map::createBlob(int ox, int oy, int size, int type)
                 for (int y = starty; y < endy; y++) {
                         if (realTile(x, y)) {
                                 float dist = (float)sqrt(pow(ox - x, 2) + pow(oy - y, 2));
-                                if(dist <= 0)
+                                if (dist <= 0)
                                         dist = 1;
                                 int chance = (1 - (float)dist / (size / 2)) * 100;
                                 if (nextTo(x, y, type, 2))

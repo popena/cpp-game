@@ -8,8 +8,8 @@
 class Tile;
 class Map {
 	public:
-		static const int mapWidth = 50;
-		static const int mapHeight = 35;
+		static const int mapWidth = WIDTH_TILES;
+		static const int mapHeight = HEIGHT_TILES;
 		Tile *tiles[mapWidth][mapHeight];
 
 		Map(tileSprites *ren);
