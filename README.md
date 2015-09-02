@@ -4,8 +4,6 @@
 
 # TODO
 
-* Fix Makefile to build from correct folder
-
 * Add support for multiplayer
 * Add sound support (?)
 * Add currency (gold)
