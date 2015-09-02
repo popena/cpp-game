@@ -28,7 +28,7 @@ void Map::init(tileSprites *sprites)
 	}
         srand(time(NULL));
         for (int i = 0; i < 50; i++) {
-                createBlob(rand() % WIDTH_TILES, rand() % HEIGHT_TILES, rand()%10 + 3, STONEID);
+                createBlob(rand() % WIDTH_TILES, rand() % HEIGHT_TILES, rand() % 10 + 3, STONEID);
         }
 }
 
