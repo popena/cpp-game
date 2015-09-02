@@ -50,9 +50,8 @@ void Map::createBlob(int ox, int oy, int size, int type)
                                 int chance = (1 - (float)dist / (size / 2)) * 100;
                                 if (nextTo(x, y, type, 2))
                                         chance *= 4;
-                                if (rand() % 100 <= chance) {
+                                if (rand() % 100 <= chance)
                                         tiles[x][y]->changeType(type);
-                                }
                         }
                 }
         }
