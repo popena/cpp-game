@@ -11,7 +11,10 @@ class tileSprites {
 		Sprite DAMAGE_3;
 
 		Sprite SIDE;
+                Sprite SIDE_STONE;
+
 		Sprite CORNER;
+		Sprite CORNER_STONE;
                 
 		Sprite STONE;
 		Sprite DIRT;

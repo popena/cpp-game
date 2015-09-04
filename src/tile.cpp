@@ -19,12 +19,26 @@ Tile::Tile(int x, int y, tileSprites *sprites, int type, Map *m)
 void Tile::update()
 {
 	if (isBomb())
-		this->takeDamage(1);
+		this->takeDamage(10);
 }
 
 bool Tile::isBomb()
 {
 	if (type == TNTID)
+		return true;
+	return false;
+}
+
+bool Tile::isDirt()
+{
+	if (type == DIRTID)
+		return true;
+	return false;
+}
+
+bool Tile::isStone()
+{
+	if (type == STONEID)
 		return true;
 	return false;
 }
@@ -38,15 +52,15 @@ int Tile::getMaxHealth()
 			break;
 
 		case STONEID:
-			hp = 100;
+			hp = 1000;
 			break;
 
 		case DIRTID:
-			hp = 25;
+			hp = 250;
 			break;
 
 		case TNTID:
-			hp = 500;
+			hp = 5000;
 			break;
 	}
 	return hp;
@@ -77,7 +91,7 @@ void Tile::takeDamage(int dmg)
 	if (dmg <= 0)
         return;
 	if (!isBomb() && this->type != AIRID) {
-                if (rand() % (25 / dmg + 1) == 0) {
+                if (rand() % (250 / dmg + 1) == 0) {
                     createDamageParticle();
                 }
 	}
@@ -100,7 +114,7 @@ void Tile::explode(int bombSize)
             if ((totalx != this->x || totaly != this->y)&&m->realTile(totalx, totaly)) {
                 float dist = (float)sqrt(pow(totalx - this->x, 2) + pow(totaly - this->y, 2));
                 float dmg = (float)bombSize / (float)dist;
-                dmg = std::min(pow(dmg / 2, 6), 1000.0);
+                dmg = std::min(pow(dmg / 2, 6), 1000.0) * 10;
                 this->changeType(AIRID);
                 m->tiles[totalx][totaly]->takeDamage((int)dmg);
             }
@@ -118,36 +132,36 @@ void Tile::drawDamage(SDL_Renderer *ren, const SDL_Rect &rect, const float &mod)
                 sprites->DAMAGE_1.draw(ren, &rect);
 }
 
-void Tile::drawCorners(SDL_Renderer *ren)
+void Tile::drawCorners(SDL_Renderer *ren, Sprite &corner, Sprite &side, int id)
 {
 	SDL_Rect rect;
 	rect.x = x * TILE_SIZE;
 	rect.y = y * TILE_SIZE;
 	rect.w = TILE_SIZE;
 	rect.h = TILE_SIZE;
-        bool airDown = (y > 0 && m->getTile(this->x, this->y - 1)->type == AIRID);
-        bool airTop = (y < HEIGHT_TILES - 1 && m->getTile(this->x, this->y + 1)->type == AIRID);
-        bool airRight = (x > 0 && m->getTile(this->x - 1, this->y)->type == AIRID);
-        bool airLeft = (x < WIDTH_TILES - 1 && m->getTile(this->x + 1, this->y)->type == AIRID);
+        bool airDown = (y > 0 && m->getTile(this->x, this->y - 1)->type == id);
+        bool airTop = (y < HEIGHT_TILES - 1 && m->getTile(this->x, this->y + 1)->type == id);
+        bool airRight = (x > 0 && m->getTile(this->x - 1, this->y)->type == id);
+        bool airLeft = (x < WIDTH_TILES - 1 && m->getTile(this->x + 1, this->y)->type == id);
         if (airDown) {
-                sprites->SIDE.draw(ren, &rect, 0.0);
+                side.draw(ren, &rect, 0.0);
                 if (airRight) 
-                        sprites->CORNER.draw(ren, &rect, 0.0);
+                        corner.draw(ren, &rect, 0.0);
         }
         if (airTop) {
-                sprites->SIDE.draw(ren, &rect, 180.0);
+                side.draw(ren, &rect, 180.0);
                 if (airLeft) 
-                        sprites->CORNER.draw(ren, &rect, 180.0);
+                        corner.draw(ren, &rect, 180.0);
         }
         if (airRight) {
-                sprites->SIDE.draw(ren, &rect, 270.0);
+                side.draw(ren, &rect, 270.0);
                 if (airTop) 
-                        sprites->CORNER.draw(ren, &rect, 270.0);
+                        corner.draw(ren, &rect, 270.0);
         }
         if (airLeft) {
-                sprites->SIDE.draw(ren, &rect, 90.0);
+                side.draw(ren, &rect, 90.0);
                 if (airDown) 
-                        sprites->CORNER.draw(ren, &rect, 90.0);
+                        corner.draw(ren, &rect, 90.0);
         }
 }
 
@@ -170,6 +184,9 @@ void Tile::draw(SDL_Renderer *ren)
 	} else {
 		sprite->draw(ren, &rect);
 	}
-        if (this->type != AIRID && !isBomb())
-                drawCorners(ren);
+        if (this->type != AIRID && !isBomb()) {
+                drawCorners(ren, sprites->CORNER, sprites->SIDE, AIRID);
+                if (!isStone())
+                        drawCorners(ren, sprites->CORNER_STONE, sprites->SIDE_STONE, STONEID);
+        }
 }
