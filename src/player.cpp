@@ -87,7 +87,7 @@ void Player::move(int rx, int ry)
 				lastMoved = SDL_GetTicks();
 			}
 		} else {
-			m->tiles[x+rx][y+ry]->takeDamage(1);
+			m->tiles[x+rx][y+ry]->takeDamage(5);
 		}
 	}
 }

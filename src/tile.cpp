@@ -19,7 +19,7 @@ Tile::Tile(int x, int y, tileSprites *sprites, int type, Map *m)
 void Tile::update()
 {
 	if (isBomb())
-		this->takeDamage(1);
+		this->takeDamage(10);
 }
 
 bool Tile::isBomb()
@@ -52,15 +52,15 @@ int Tile::getMaxHealth()
 			break;
 
 		case STONEID:
-			hp = 100;
+			hp = 1000;
 			break;
 
 		case DIRTID:
-			hp = 25;
+			hp = 250;
 			break;
 
 		case TNTID:
-			hp = 500;
+			hp = 5000;
 			break;
 	}
 	return hp;
@@ -91,7 +91,7 @@ void Tile::takeDamage(int dmg)
 	if (dmg <= 0)
         return;
 	if (!isBomb() && this->type != AIRID) {
-                if (rand() % (25 / dmg + 1) == 0) {
+                if (rand() % (250 / dmg + 1) == 0) {
                     createDamageParticle();
                 }
 	}
@@ -114,7 +114,7 @@ void Tile::explode(int bombSize)
             if ((totalx != this->x || totaly != this->y)&&m->realTile(totalx, totaly)) {
                 float dist = (float)sqrt(pow(totalx - this->x, 2) + pow(totaly - this->y, 2));
                 float dmg = (float)bombSize / (float)dist;
-                dmg = std::min(pow(dmg / 2, 6), 1000.0);
+                dmg = std::min(pow(dmg / 2, 6), 1000.0) * 10;
                 this->changeType(AIRID);
                 m->tiles[totalx][totaly]->takeDamage((int)dmg);
             }
