@@ -29,6 +29,20 @@ bool Tile::isBomb()
 	return false;
 }
 
+bool Tile::isDirt()
+{
+	if (type == DIRTID)
+		return true;
+	return false;
+}
+
+bool Tile::isStone()
+{
+	if (type == STONEID)
+		return true;
+	return false;
+}
+
 int Tile::getMaxHealth()
 {
 	int hp = 1;
@@ -118,36 +132,36 @@ void Tile::drawDamage(SDL_Renderer *ren, const SDL_Rect &rect, const float &mod)
                 sprites->DAMAGE_1.draw(ren, &rect);
 }
 
-void Tile::drawCorners(SDL_Renderer *ren)
+void Tile::drawCorners(SDL_Renderer *ren, Sprite &corner, Sprite &side, int id)
 {
 	SDL_Rect rect;
 	rect.x = x * TILE_SIZE;
 	rect.y = y * TILE_SIZE;
 	rect.w = TILE_SIZE;
 	rect.h = TILE_SIZE;
-        bool airDown = (y > 0 && m->getTile(this->x, this->y - 1)->type == AIRID);
-        bool airTop = (y < HEIGHT_TILES - 1 && m->getTile(this->x, this->y + 1)->type == AIRID);
-        bool airRight = (x > 0 && m->getTile(this->x - 1, this->y)->type == AIRID);
-        bool airLeft = (x < WIDTH_TILES - 1 && m->getTile(this->x + 1, this->y)->type == AIRID);
+        bool airDown = (y > 0 && m->getTile(this->x, this->y - 1)->type == id);
+        bool airTop = (y < HEIGHT_TILES - 1 && m->getTile(this->x, this->y + 1)->type == id);
+        bool airRight = (x > 0 && m->getTile(this->x - 1, this->y)->type == id);
+        bool airLeft = (x < WIDTH_TILES - 1 && m->getTile(this->x + 1, this->y)->type == id);
         if (airDown) {
-                sprites->SIDE.draw(ren, &rect, 0.0);
+                side.draw(ren, &rect, 0.0);
                 if (airRight) 
-                        sprites->CORNER.draw(ren, &rect, 0.0);
+                        corner.draw(ren, &rect, 0.0);
         }
         if (airTop) {
-                sprites->SIDE.draw(ren, &rect, 180.0);
+                side.draw(ren, &rect, 180.0);
                 if (airLeft) 
-                        sprites->CORNER.draw(ren, &rect, 180.0);
+                        corner.draw(ren, &rect, 180.0);
         }
         if (airRight) {
-                sprites->SIDE.draw(ren, &rect, 270.0);
+                side.draw(ren, &rect, 270.0);
                 if (airTop) 
-                        sprites->CORNER.draw(ren, &rect, 270.0);
+                        corner.draw(ren, &rect, 270.0);
         }
         if (airLeft) {
-                sprites->SIDE.draw(ren, &rect, 90.0);
+                side.draw(ren, &rect, 90.0);
                 if (airDown) 
-                        sprites->CORNER.draw(ren, &rect, 90.0);
+                        corner.draw(ren, &rect, 90.0);
         }
 }
 
@@ -170,6 +184,9 @@ void Tile::draw(SDL_Renderer *ren)
 	} else {
 		sprite->draw(ren, &rect);
 	}
-        if (this->type != AIRID && !isBomb())
-                drawCorners(ren);
+        if (this->type != AIRID && !isBomb()) {
+                drawCorners(ren, sprites->CORNER, sprites->SIDE, AIRID);
+                if (!isStone())
+                        drawCorners(ren, sprites->CORNER_STONE, sprites->SIDE_STONE, STONEID);
+        }
 }

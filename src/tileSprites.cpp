@@ -9,7 +9,10 @@ tileSprites::tileSprites(SDL_Renderer *ren)
 	this->DAMAGE_3.load(ren, "Images/damage_3.png");
 
 	this->SIDE.load(ren, "Images/side2.png");
+	this->SIDE_STONE.load(ren, "Images/side_stone.png");
+
 	this->CORNER.load(ren, "Images/corner.png");
+	this->CORNER_STONE.load(ren, "Images/corner_stone.png");
 
 	this->STONE.load(ren, "Images/stone.png");
 	this->DIRT.load(ren, "Images/dirt.png");
