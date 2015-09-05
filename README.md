@@ -9,6 +9,5 @@
 * Add currency (gold)
 * Add more tiles and bombs
 * Add menus and shop
-* Add better fps limiter
-* Smoother transition between stone and dirt tile
+* Add better fps limiter (?)
 * Better looking textures/images

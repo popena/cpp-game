@@ -15,6 +15,8 @@ class tileSprites {
 
 		Sprite CORNER;
 		Sprite CORNER_STONE;
+
+                Sprite STONE_GOLD;
                 
 		Sprite STONE;
 		Sprite DIRT;

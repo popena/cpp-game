@@ -28,11 +28,14 @@ void Map::init(tileSprites *sprites)
 	}
         srand(time(NULL));
         for (int i = 0; i < 50; i++) {
-                createBlob(rand() % WIDTH_TILES, rand() % HEIGHT_TILES, rand() % 10 + 3, STONEID);
+                createBlob(rand() % WIDTH_TILES, rand() % HEIGHT_TILES, rand() % 10 + 3, STONEID, DIRTID);
+        }
+        for (int i = 0; i < 50; i++) {
+                createBlob(rand() % WIDTH_TILES, rand() % HEIGHT_TILES, rand() % 3 + 2, STONE_GOLDID, STONEID);
         }
 }
 
-void Map::createBlob(int ox, int oy, int size, int type)
+void Map::createBlob(int ox, int oy, int size, int type, int topOf)
 {
         if (size <= 0)
                 return;
@@ -43,7 +46,7 @@ void Map::createBlob(int ox, int oy, int size, int type)
 
         for (int x = startx; x < endx; x++) {
                 for (int y = starty; y < endy; y++) {
-                        if (realTile(x, y)) {
+                        if (realTile(x, y) && tiles[x][y]->type == topOf) {
                                 float dist = (float)sqrt(pow(ox - x, 2) + pow(oy - y, 2));
                                 if (dist <= 0)
                                         dist = 1;

@@ -39,17 +39,21 @@ int main(int argc, char** argv)
 		} 
 
                 if(SDL_GetTicks() - lastUpdate >= UPDATESPERSECOND) {
-                        p->update();
-                        m->update();
-                        for (unsigned int i = 0; i < particles.size(); i++) {
-                                particles[i].update();
-                                if (particles[i].time <= 0) {
-                                        particles.erase(particles.begin() + i);
-                                }
-                        }
                         int now = SDL_GetTicks();
-                        int diff = UPDATESPERSECOND - now - lastUpdate;
-                        lastUpdate = now + diff;
+                        int diff = now - lastUpdate - UPDATESPERSECOND;
+                        do {
+                                diff = now - lastUpdate - UPDATESPERSECOND;
+                                p->update();
+                                m->update();
+                                for (unsigned int i = 0; i < particles.size(); i++) {
+                                        particles[i].update();
+                                        if (particles[i].time <= 0) {
+                                                particles.erase(particles.begin() + i);
+                                        }
+                                }
+                                now = SDL_GetTicks();
+                                lastUpdate = now - diff;
+                        } while(diff >= UPDATESPERSECOND);
                 }
 		SDL_RenderClear(renderer); 
 		m->draw(renderer);

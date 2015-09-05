@@ -14,6 +14,9 @@ tileSprites::tileSprites(SDL_Renderer *ren)
 	this->CORNER.load(ren, "Images/corner.png");
 	this->CORNER_STONE.load(ren, "Images/corner_stone.png");
 
+	this->STONE_GOLD.load(ren, "Images/stone_gold.png");
+
+
 	this->STONE.load(ren, "Images/stone.png");
 	this->DIRT.load(ren, "Images/dirt.png");
 	this->AIR.load(ren, "Images/air.png");
@@ -27,6 +30,10 @@ Sprite *tileSprites::getSprite(int id)
 	switch (id) {
 	case STONEID:
 		return &this->STONE;
+		break;
+
+	case STONE_GOLDID:
+		return &this->STONE_GOLD;
 		break;
 
 	case DIRTID:
