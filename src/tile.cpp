@@ -24,23 +24,17 @@ void Tile::update()
 
 bool Tile::isBomb()
 {
-	if (type == TNTID)
-		return true;
-	return false;
+        return (type == TNTID);
 }
 
 bool Tile::isDirt()
 {
-	if (type == DIRTID)
-		return true;
-	return false;
+        return (type == DIRTID);
 }
 
 bool Tile::isStone()
 {
-	if (type == STONEID)
-		return true;
-	return false;
+	return (type == STONEID || type == STONE_GOLDID);
 }
 
 int Tile::getMaxHealth()
@@ -52,6 +46,7 @@ int Tile::getMaxHealth()
 			break;
 
 		case STONEID:
+		case STONE_GOLDID:
 			hp = 1000;
 			break;
 
@@ -186,7 +181,9 @@ void Tile::draw(SDL_Renderer *ren)
 	}
         if (this->type != AIRID && !isBomb()) {
                 drawCorners(ren, sprites->CORNER, sprites->SIDE, AIRID);
-                if (!isStone())
+                if (!isStone()) {
                         drawCorners(ren, sprites->CORNER_STONE, sprites->SIDE_STONE, STONEID);
+                        drawCorners(ren, sprites->CORNER_STONE, sprites->SIDE_STONE, STONE_GOLDID);
+                }
         }
 }
