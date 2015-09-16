@@ -31,7 +31,7 @@ void Map::init(tileSprites *sprites)
                 createBlob(rand() % WIDTH_TILES, rand() % HEIGHT_TILES, rand() % 10 + 3, STONEID, DIRTID);
         }
         for (int i = 0; i < 50; i++) {
-                createBlob(rand() % WIDTH_TILES, rand() % HEIGHT_TILES, rand() % 3 + 2, STONE_GOLDID, STONEID);
+                createBlob(rand() % WIDTH_TILES, rand() % HEIGHT_TILES, rand() % 2 + 1, STONE_GOLDID, STONEID);
         }
 }
 
@@ -39,6 +39,10 @@ void Map::createBlob(int ox, int oy, int size, int type, int topOf)
 {
         if (size <= 0)
                 return;
+        if (size == 1 && realTile(ox, oy) && tiles[ox][oy]->type == topOf) {
+                tiles[ox][oy]->changeType(type);
+                return;
+        }
         int startx = ox - size / 2;
         int starty = oy - size / 2;
         int endx = ox + size / 2;
@@ -48,9 +52,7 @@ void Map::createBlob(int ox, int oy, int size, int type, int topOf)
                 for (int y = starty; y < endy; y++) {
                         if (realTile(x, y) && tiles[x][y]->type == topOf) {
                                 float dist = (float)sqrt(pow(ox - x, 2) + pow(oy - y, 2));
-                                if (dist <= 0)
-                                        dist = 1;
-                                int chance = (1 - (float)dist / (size / 2)) * 100;
+                                int chance = (1 - (float)dist / (size / 2 + 1)) * 100;
                                 if (nextTo(x, y, type, 2))
                                         chance *= 4;
                                 if (rand() % 100 <= chance)

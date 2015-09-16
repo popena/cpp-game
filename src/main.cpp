@@ -2,6 +2,7 @@
 #include "map.h"
 #include "particle.h"
 #include "tileSprites.h"
+#include "menu.h"
 #include <iostream>
 #include <vector>
 #include <time.h>
@@ -21,6 +22,7 @@ int main(int argc, char** argv)
 	SDL_Window *win = SDL_CreateWindow("testgame", 100, 100, WIDTH, HEIGHT, 0);
 	SDL_Renderer *renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
 	tileSprites *sprites = new tileSprites(renderer);
+	Menu menu(renderer);
 	Map *m = new Map(sprites);
 	Player *p = new Player(renderer, m);
 	srand(time(NULL));
@@ -35,6 +37,8 @@ int main(int argc, char** argv)
 				p->handleEvent(e, 0);
 			} else if (e.type == SDL_KEYUP) {
 				p->handleEvent(e, 1);
+			} else if (e.type == SDLK_ESCAPE) {
+				menu.showMenu();
 			}
 		} 
 
