@@ -4,7 +4,6 @@
 
 # TODO
 
-
 * Add support for multiplayer
 * Add sound support (?)
 * Add currency (gold)
