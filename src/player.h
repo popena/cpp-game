@@ -23,6 +23,7 @@ class Player {
 		bool aDown;
 		int lastMoved;
 		unsigned int speed;
+		int currency;
 	private:
 		Sprite sprite;
 		Map *m;

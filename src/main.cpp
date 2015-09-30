@@ -65,6 +65,17 @@ int main(int argc, char** argv)
 		for (unsigned int i = 0; i < particles.size(); i++) {
 			particles[i].draw(renderer);
 		}
+
+		/*SDL_Color White = {255, 255, 255};
+		SDL_Surface* surfaceMessage = TTF_RenderText_Solid(NULL, "Currency:", White); 
+		SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+
+		SDL_Rect Message_rect;
+		Message_rect.x = 0;
+		Message_rect.y = 0;
+		Message_rect.w = 100;
+		Message_rect.h = 100;*/
+
 		SDL_RenderPresent(renderer);
 	}
 	delete m;

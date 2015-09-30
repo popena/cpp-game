@@ -2,6 +2,7 @@
 #include "tileSprites.h"
 #include "map.h"
 #include "particle.h"
+#include "player.h"
 #include <iostream>
 #include <algorithm>
 
@@ -98,6 +99,18 @@ void Tile::takeDamage(int dmg)
 		}
 		this->changeType(AIRID);
 	}
+}
+
+void Tile::goldTakeDamage(int dmg, Player p)
+{
+    if (dmg <= 0)
+        return;
+    if (this->type != AIRID)
+        this->health -= dmg;
+    if (this->health < 0) {
+        this->changeType(AIRID);
+        p.currency += 250;
+    }
 }
 
 void Tile::explode(int bombSize)
