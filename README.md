@@ -8,5 +8,7 @@
 * Add sound support (?)
 * Add more tiles and bombs
 * Add menus and shop
+* Add animations
+* Add better explosion effects
 * Add better fps limiter (?)
 * Better looking textures/images
