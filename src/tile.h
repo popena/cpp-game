@@ -21,7 +21,6 @@ class Tile {
 		bool isDirt();
 		bool isStone();
 		void takeDamage(int damage);
-		void goldTakeDamage(int damage, Player p);
 		int getMaxHealth();
 		void changeType(int type);
 		void resetHealth();
