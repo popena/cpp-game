@@ -84,7 +84,7 @@ void Tile::createDamageParticle()
 bool Tile::takeDamage(int dmg)
 {
 	if (dmg <= 0)
-        return false;
+                return false;
 	if (!isBomb() && this->type != AIRID) {
                 if (rand() % (250 / dmg + 1) == 0) {
                     createDamageParticle();
@@ -99,7 +99,6 @@ bool Tile::takeDamage(int dmg)
 		this->changeType(AIRID);
 		return true;
 	}
-	
 	return false;
 }
 
@@ -122,11 +121,11 @@ void Tile::explode(int bombSize)
 
 void Tile::drawDamage(SDL_Renderer *ren, const SDL_Rect &rect, const float &mod)
 {
-        if (mod<=0.3)
+        if (mod <= 0.3)
                 sprites->DAMAGE_3.draw(ren, &rect);
-        else if (mod<=0.6)
+        else if (mod <= 0.6)
                 sprites->DAMAGE_2.draw(ren, &rect);
-        else if (mod<=0.9)
+        else if (mod <= 0.9)
                 sprites->DAMAGE_1.draw(ren, &rect);
 }
 

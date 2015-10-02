@@ -80,16 +80,16 @@ void Player::handleEvent(const SDL_Event &e, int type)
 
 void Player::move(int rx, int ry)
 {
-	if (m->realTile(x+rx,y+ry)) {
-		if (m->tiles[x+rx][y+ry]->type == AIRID) {
+	if (m->realTile(x + rx, y + ry)) {
+		if (m->tiles[x + rx][y + ry]->type == AIRID) {
 			if (SDL_GetTicks() - lastMoved > speed) {
 				x += rx;
 				y += ry;
 				lastMoved = SDL_GetTicks();
 			}
 		} else {
-			if (m->tiles[x+rx][y+ry]->takeDamage(5)) // if is destroyed
-				if (m->tiles[x+rx][y+ry]->type == STONE_GOLDID) // if it's gold
+			if (m->tiles[x + rx][y + ry]->takeDamage(5) &&
+                                m->tiles[x + rx][y + ry]->type == STONE_GOLDID) // if gold destroyed
 					this->currency += 250;
 		}
 	}
