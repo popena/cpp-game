@@ -1,5 +1,7 @@
 # cpp-game
 
+![](Images/game.png)
+
 2D game written in C++.
 
 # TODO
