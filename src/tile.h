@@ -3,7 +3,6 @@
 #include "utils.h"
 #include "tileSprites.h"
 #include "map.h"
-#include "player.h"
 
 
 class Map;
