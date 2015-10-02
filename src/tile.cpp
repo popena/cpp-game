@@ -2,7 +2,6 @@
 #include "tileSprites.h"
 #include "map.h"
 #include "particle.h"
-#include "player.h"
 #include <iostream>
 #include <algorithm>
 
