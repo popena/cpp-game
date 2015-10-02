@@ -81,10 +81,10 @@ void Tile::createDamageParticle()
     particles.push_back(p);
 }
 
-void Tile::takeDamage(int dmg)
+bool Tile::takeDamage(int dmg)
 {
 	if (dmg <= 0)
-        return;
+        return false;
 	if (!isBomb() && this->type != AIRID) {
                 if (rand() % (250 / dmg + 1) == 0) {
                     createDamageParticle();
@@ -97,7 +97,10 @@ void Tile::takeDamage(int dmg)
                         explode(16);
 		}
 		this->changeType(AIRID);
+		return true;
 	}
+	
+	return false;
 }
 
 void Tile::explode(int bombSize)

@@ -18,6 +18,7 @@ Player::Player(SDL_Renderer *ren, Map *m)
 	sDown = false;
 	aDown = false;
 	speed = 250;
+	currency = 0;
 }
 
 void Player::draw(SDL_Renderer *ren)
@@ -87,7 +88,9 @@ void Player::move(int rx, int ry)
 				lastMoved = SDL_GetTicks();
 			}
 		} else {
-			m->tiles[x+rx][y+ry]->takeDamage(5);
+			if (m->tiles[x+rx][y+ry]->takeDamage(5)) // if is destroyed
+				if (m->tiles[x+rx][y+ry]->type == STONE_GOLDID) // if it's gold
+					this->currency += 250;
 		}
 	}
 }
