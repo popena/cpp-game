@@ -20,7 +20,7 @@ class Tile {
 		bool isBomb();
 		bool isDirt();
 		bool isStone();
-		void takeDamage(int damage);
+		bool takeDamage(int damage);
 		int getMaxHealth();
 		void changeType(int type);
 		void resetHealth();
