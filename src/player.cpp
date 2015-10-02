@@ -88,8 +88,9 @@ void Player::move(int rx, int ry)
 				lastMoved = SDL_GetTicks();
 			}
 		} else {
-			if (m->tiles[x+rx][y+ry]->type == STONE_GOLDID) m->tiles[x+rx][y+ry]->goldTakeDamage(5, this);
-			else m->tiles[x+rx][y+ry]->takeDamage(5);
+			if (m->tiles[x+rx][y+ry]->takeDamage(5)) // if is destroyed
+				if (m->tiles[x+rx][y+ry]->type == STONE_GOLDID) // if it's gold
+					this->currency += 250;
 		}
 	}
 }
