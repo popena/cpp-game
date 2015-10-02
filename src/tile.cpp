@@ -82,7 +82,7 @@ void Tile::createDamageParticle()
     particles.push_back(p);
 }
 
-void Tile::takeDamage(int dmg)
+bool Tile::takeDamage(int dmg)
 {
 	if (dmg <= 0)
         return;
@@ -98,19 +98,10 @@ void Tile::takeDamage(int dmg)
                         explode(16);
 		}
 		this->changeType(AIRID);
+		return true;
 	}
-}
-
-void Tile::goldTakeDamage(int dmg, Player p)
-{
-    if (dmg <= 0)
-        return;
-    if (this->type != AIRID)
-        this->health -= dmg;
-    if (this->health < 0) {
-        this->changeType(AIRID);
-        p.currency += 250;
-    }
+	
+	return false;
 }
 
 void Tile::explode(int bombSize)
