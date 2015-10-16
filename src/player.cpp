@@ -78,6 +78,14 @@ void Player::handleEvent(const SDL_Event &e, int type)
 	}
 }
 
+void Player::resetKeys()
+{
+        wDown = false;
+        dDown = false;
+        sDown = false;
+        aDown = false;
+}
+
 void Player::move(int rx, int ry)
 {
 	if (m->realTile(x + rx, y + ry)) {

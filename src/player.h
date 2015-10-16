@@ -12,8 +12,11 @@ class Player {
 		void update();
 		void handleEvent(const SDL_Event &, int type);
 		void move(int x, int y);
-
+		void resetKeys();
+	private:
 		SDL_Rect pos;
+		Sprite sprite;
+		Map *m;
 		int x;
 		int y;
 		char direction;
@@ -24,8 +27,5 @@ class Player {
 		int lastMoved;
 		unsigned int speed;
 		int currency;
-	private:
-		Sprite sprite;
-		Map *m;
 };
 #endif
