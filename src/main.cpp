@@ -3,9 +3,15 @@
 #include "particle.h"
 #include "tileSprites.h"
 #include "menu.h"
+#include "network.h"
+#include "packet.h"
 #include <iostream>
 #include <vector>
 #include <time.h>
+#include <thread>
+#include <string>
+
+#include <SDL/SDL_net.h>
 
 
 using namespace std;
@@ -13,20 +19,32 @@ using namespace std;
 bool gameRunning = true;
 vector<Particle> particles;
 int lastUpdate = 0;
-const int UPDATESPERSECOND = 1000/45;
+const int UPDATESPERSECOND = 1000 / 45;
 inline void handleKeyboardEvent(SDL_Event &e, Menu *menu, Player *p);
-
+void packetHandler();
+Map *m;
+Network net;
 
 int main(int argc, char** argv)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
+        SDLNet_Init();
 	SDL_Window *win = SDL_CreateWindow("testgame", 100, 100, WIDTH, HEIGHT, 0);
 	SDL_Renderer *renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
 	tileSprites *sprites = new tileSprites(renderer);
 	Menu menu(renderer);
-	Map *m = new Map(sprites);
+	m = new Map(sprites);
 	Player *p = new Player(renderer, m);
 	srand(time(NULL));
+
+
+
+
+        if (net.connect("127.0.0.1", 9001)) {
+                net.sendMsg("test");
+                thread network(packetHandler);
+                network.detach();
+        }
 
 	while (gameRunning) {
 		SDL_Event e;
@@ -67,11 +85,6 @@ int main(int argc, char** argv)
                         SDL_RenderClear(renderer); 
                         menu.draw();
                 }
-		/*SDL_Color White = {255, 255, 255};
-		SDL_Surface* surfaceMessage = TTF_RenderText_Solid(NULL, "Currency:", White); 
-		SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-                */
-
 
 		SDL_RenderPresent(renderer);
 	}
@@ -80,6 +93,33 @@ int main(int argc, char** argv)
 	delete p;
 
 	return 0;
+}
+
+
+void packetHandler()
+{
+        char *msg = NULL;
+        while (1) {
+                if (net.recvMsg(msg) != -1) {
+                        string sMsg = string(msg);
+                        cout << sMsg << endl;
+                        string *buff = new string[4];
+                        splitPacket(buff, sMsg);
+                        /* string test = "123,2,3,4"; */
+                        /* string buff[4]; */
+                        /* parsePacket2(test, buff, 4); */
+                        /* cout << buff[0] << endl; */
+                        /* int type = atoi(parsePacket(sMsg, 0).c_str()); */
+                        /* int x = atoi(parsePacket(sMsg, 1).c_str()); */
+                        /* int y = atoi(parsePacket(sMsg, 2).c_str()); */
+                        /* int tileType = atoi(parsePacket(sMsg, 2).c_str()); */
+                        /* m->tiles[x][y]->changeType(tileType); */
+                        delete [] buff;
+                } else {
+                        cout << "Connection lost" << endl;
+                        break;
+                }
+        }
 }
 
 inline void handleKeyboardEvent(SDL_Event &e, Menu *menu, Player *p)
