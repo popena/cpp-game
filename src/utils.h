@@ -3,12 +3,12 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#define TILE_SIZE 16
+#define WIDTH_TILES 50
+#define HEIGHT_TILES 35
+#define WIDTH TILE_SIZE * WIDTH_TILES
+#define HEIGHT TILE_SIZE * HEIGHT_TILES
 
-const int TILE_SIZE = 16;
-const int WIDTH_TILES = 50;
-const int HEIGHT_TILES = 35;
-const int WIDTH = TILE_SIZE * WIDTH_TILES;
-const int HEIGHT = TILE_SIZE * HEIGHT_TILES;
 enum tiles {
 	AIRID,
 	STONEID,
