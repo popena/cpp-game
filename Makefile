@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -O2 -std=gnu++11
+CXXFLAGS = -Wall -Werror -O2 -std=gnu++11
 LIBS = -lSDL2 -lSDL2_image -lSDL_net -pthread
 
 SOURCES = $(wildcard src/*.cpp)
