@@ -28,11 +28,11 @@ int main(int argc, char** argv)
 	SDL_Init(SDL_INIT_EVERYTHING);
         SDLNet_Init();
 	SDL_Window *win = SDL_CreateWindow("testgame", 100, 100, WIDTH, HEIGHT, 0);
-	SDL_Renderer *renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
-	tileSprites *sprites = new tileSprites(renderer);
-	Menu menu(renderer);
+	SDL_Renderer *ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
+	tileSprites *sprites = new tileSprites(ren);
+	Menu menu(ren);
 	m = new Map(sprites);
-	Player *p = new Player(renderer, m);
+	Player *p = new Player(ren, m);
 	srand(time(NULL));
 
 
@@ -67,15 +67,15 @@ int main(int argc, char** argv)
                                         lastUpdate = now - diff;
                                 } while(diff >= UPDATESPERSECOND);
                         }
-                        SDL_RenderClear(renderer); 
-                        m->draw(renderer);
-                        p->draw(renderer);
+                        SDL_RenderClear(ren); 
+                        m->draw(ren);
+                        p->draw(ren);
                 } else {
-                        SDL_RenderClear(renderer); 
+                        SDL_RenderClear(ren); 
                         menu.draw();
                 }
 
-		SDL_RenderPresent(renderer);
+		SDL_RenderPresent(ren);
 	}
 	delete m;
 	delete sprites;
