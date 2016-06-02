@@ -4,6 +4,8 @@
 
 2D game written in C++.
 
+[cpp-game-server](https://github.com/elgis/cpp-game-server) is a server for cpp-game multiplayer.
+
 # TODO
 
 * Add support for multiplayer
