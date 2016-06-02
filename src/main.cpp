@@ -80,6 +80,8 @@ int main(int argc, char** argv)
 	delete m;
 	delete sprites;
 	delete p;
+	SDL_DestroyRenderer(ren);
+	SDL_DestroyWindow(win);
 
 	return 0;
 }
