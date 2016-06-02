@@ -2,7 +2,6 @@
 #define PARTICLE_H
 #include "sprite.h"
 #include "utils.h"
-#include <vector>
 
 
 class Particle {
@@ -20,6 +19,4 @@ class Particle {
 		void draw(SDL_Renderer *);
 		void update();
 };
-
-extern std::vector<Particle> particles;
 #endif

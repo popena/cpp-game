@@ -39,7 +39,7 @@ void Map::createBlob(int ox, int oy, int size, int type, int topOf)
 {
         if (size <= 0)
                 return;
-        if (size == 1 && realTile(ox, oy) && tiles[ox][oy]->type == topOf) {
+        if (size == 1 && insideBounds(ox, oy) && tiles[ox][oy]->type == topOf) {
                 tiles[ox][oy]->changeType(type);
                 return;
         }
@@ -50,7 +50,7 @@ void Map::createBlob(int ox, int oy, int size, int type, int topOf)
 
         for (int x = startx; x < endx; x++) {
                 for (int y = starty; y < endy; y++) {
-                        if (realTile(x, y) && tiles[x][y]->type == topOf) {
+                        if (insideBounds(x, y) && tiles[x][y]->type == topOf) {
                                 float dist = (float)sqrt(pow(ox - x, 2) + pow(oy - y, 2));
                                 int chance = (1 - (float)dist / (size / 2 + 1)) * 100;
                                 if (nextTo(x, y, type, 2))
@@ -74,7 +74,7 @@ bool Map::nextTo(int ox, int oy, int tile, int range)
         for (int x = startx; x < endx; x++) {
                 for (int y = starty; y < endy; y++) {
                         float dist = (float)sqrt(pow(ox - x, 2) + pow(oy - y, 2));
-                        if (realTile(x, y) && dist <= range && tiles[x][y]->type == tile) {
+                        if (insideBounds(x, y) && dist <= range && tiles[x][y]->type == tile) {
                                 return true;
                         }
                 }
@@ -85,14 +85,14 @@ bool Map::nextTo(int ox, int oy, int tile, int range)
 /*
  * Check if tile is inside the map
  * */
-bool Map::realTile(int x, int y)
+bool Map::insideBounds(int x, int y)
 {
 	return (x >= 0 && y >= 0 && x < mapWidth && y < mapHeight);
 }
 
 Tile* Map::getTile(int x, int y)
 {
-        if (realTile(x, y))
+        if (insideBounds(x, y))
                 return tiles[x][y];
         else
                 return NULL;
@@ -105,6 +105,12 @@ void Map::update()
 			tiles[x][y]->update();
 		}
 	}
+	for (unsigned int i = 0; i < particles.size(); i++) {
+		particles[i].update();
+		if (particles[i].time <= 0) {
+			particles.erase(particles.begin() + i);
+		}
+	}
 }
 
 void Map::draw(SDL_Renderer *ren)
@@ -113,5 +119,8 @@ void Map::draw(SDL_Renderer *ren)
 		for (int y = 0; y < mapHeight; y++) {
 			tiles[x][y]->draw(ren);
 		}
+	}
+	for (unsigned int i = 0; i < particles.size(); i++) {
+		particles[i].draw(ren);
 	}
 }

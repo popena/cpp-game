@@ -1,6 +1,5 @@
 #include "player.h"
 #include "map.h"
-#include "particle.h"
 #include "tileSprites.h"
 #include "menu.h"
 #include "network.h"
@@ -17,7 +16,6 @@
 using namespace std;
 
 bool gameRunning = true;
-vector<Particle> particles;
 int lastUpdate = 0;
 const int UPDATESPERSECOND = 1000 / 45;
 inline void handleKeyboardEvent(SDL_Event &e, Menu *menu, Player *p);
@@ -65,12 +63,6 @@ int main(int argc, char** argv)
                                         diff = now - lastUpdate - UPDATESPERSECOND;
                                         p->update();
                                         m->update();
-                                        for (unsigned int i = 0; i < particles.size(); i++) {
-                                                particles[i].update();
-                                                if (particles[i].time <= 0) {
-                                                        particles.erase(particles.begin() + i);
-                                                }
-                                        }
                                         now = SDL_GetTicks();
                                         lastUpdate = now - diff;
                                 } while(diff >= UPDATESPERSECOND);
@@ -78,9 +70,6 @@ int main(int argc, char** argv)
                         SDL_RenderClear(renderer); 
                         m->draw(renderer);
                         p->draw(renderer);
-                        for (unsigned int i = 0; i < particles.size(); i++) {
-                                particles[i].draw(renderer);
-                        }
                 } else {
                         SDL_RenderClear(renderer); 
                         menu.draw();

@@ -88,7 +88,7 @@ void Player::resetKeys()
 
 void Player::move(int rx, int ry)
 {
-	if (m->realTile(x + rx, y + ry)) {
+	if (m->insideBounds(x + rx, y + ry)) {
 		if (m->tiles[x + rx][y + ry]->type == AIRID) {
 			if (SDL_GetTicks() - lastMoved > speed) {
 				x += rx;

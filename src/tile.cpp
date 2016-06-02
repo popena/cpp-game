@@ -78,7 +78,7 @@ void Tile::createDamageParticle()
     if (this->type == DIRTID)
         s = &sprites->DIRT_PARTICLE;
     Particle p(s, (float)x * TILE_SIZE + TILE_SIZE / 2, (float)y * TILE_SIZE + TILE_SIZE / 2, rand() % 250 + 25);
-    particles.push_back(p);
+    m->particles.push_back(p);
 }
 
 bool Tile::takeDamage(int dmg)
@@ -108,7 +108,7 @@ void Tile::explode(int bombSize)
         for (int x = 0; x < bombSize; x++) {
             int totalx = x + this->x - bombSize / 2;
             int totaly = y + this->y - bombSize / 2;
-            if ((totalx != this->x || totaly != this->y)&&m->realTile(totalx, totaly)) {
+            if ((totalx != this->x || totaly != this->y) && m->insideBounds(totalx, totaly)) {
                 float dist = (float)sqrt(pow(totalx - this->x, 2) + pow(totaly - this->y, 2));
                 float dmg = (float)bombSize / (float)dist;
                 dmg = std::min(pow(dmg / 2, 6), 1000.0) * 10;
