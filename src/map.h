@@ -15,15 +15,18 @@ class Map {
 		static const int mapHeight = HEIGHT_TILES;
 		Tile *tiles[mapWidth][mapHeight];
 
-		Map(tileSprites *ren);
+		Map(SDL_Renderer *ren, tileSprites *sprites);
 		~Map();
-		void init(tileSprites *);
-		void draw(SDL_Renderer *);
+		void init(SDL_Renderer *ren, tileSprites *sprites);
+		void draw();
 		void update();
 		bool insideBounds(int x, int y);
                 Tile* getTile(int x, int y);
                 void createBlob(int ox, int oy, int size, int type, int topOf);
                 bool nextTo(int ox, int oy, int tile, int range);
+
+		SDL_Renderer *ren;
+		tileSprites *sprites;
 	private:
                 
 };

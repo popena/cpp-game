@@ -4,9 +4,9 @@
 #include "tile.h"
 #include "tileSprites.h"
 
-Map::Map(tileSprites *sprites) 
+Map::Map(SDL_Renderer *ren, tileSprites *sprites) 
 {
-	init(sprites);
+	init(ren, sprites);
 }
 
 Map::~Map()
@@ -18,11 +18,11 @@ Map::~Map()
 	}
 }
 
-void Map::init(tileSprites *sprites)
+void Map::init(SDL_Renderer *ren, tileSprites *sprites)
 {
 	for (int x = 0; x < mapWidth; x++) {
 		for (int y = 0; y < mapHeight; y++) {
-                        Tile *t = new Tile(x, y, sprites, DIRTID, this);
+                        Tile *t = new Tile(x, y, DIRTID, this);
                         tiles[x][y] = t;
 		}
 	}
@@ -33,6 +33,8 @@ void Map::init(tileSprites *sprites)
         for (int i = 0; i < 50; i++) {
                 createBlob(rand() % WIDTH_TILES, rand() % HEIGHT_TILES, rand() % 2 + 1, STONE_GOLDID, STONEID);
         }
+	this->ren = ren;
+	this->sprites = sprites;
 }
 
 void Map::createBlob(int ox, int oy, int size, int type, int topOf)
@@ -113,11 +115,11 @@ void Map::update()
 	}
 }
 
-void Map::draw(SDL_Renderer *ren)
+void Map::draw()
 {
 	for (int x = 0; x < mapWidth; x++){
 		for (int y = 0; y < mapHeight; y++) {
-			tiles[x][y]->draw(ren);
+			tiles[x][y]->draw();
 		}
 	}
 	for (unsigned int i = 0; i < particles.size(); i++) {

@@ -7,8 +7,8 @@
 
 class Player {
 	public:
-		Player(SDL_Renderer *ren, Map *);
-		void draw(SDL_Renderer *ren);
+		Player(Map *);
+		void draw();
 		void update();
 		void handleEvent(const SDL_Event &, int type);
 		void move(int x, int y);

@@ -3,9 +3,9 @@
 #include "sprite.h"
 
 
-Player::Player(SDL_Renderer *ren, Map *m)
+Player::Player(Map *m)
 {
-	sprite.load(ren, "Images/player.png");
+	sprite.load(m->ren, "Images/player.png");
 	this->m = m;
 	x = 0;
 	y = 0;
@@ -21,11 +21,11 @@ Player::Player(SDL_Renderer *ren, Map *m)
 	currency = 0;
 }
 
-void Player::draw(SDL_Renderer *ren)
+void Player::draw()
 {
 	pos.x = x * TILE_SIZE;
 	pos.y = y * TILE_SIZE;
-	sprite.draw(ren, &pos, (double)direction * 90);
+	sprite.draw(m->ren, &pos, (double)direction * 90);
 }
 
 void Player::handleEvent(const SDL_Event &e, int type)

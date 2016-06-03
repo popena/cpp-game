@@ -13,8 +13,8 @@ class Tile {
 		int health;
 		int x, y;
 
-		Tile(int x, int y, tileSprites *sprites, int type, Map *);
-		void draw(SDL_Renderer *);
+		Tile(int x, int y, int type, Map *);
+		void draw();
 		void update();
 		bool isBomb();
 		bool isDirt();
@@ -25,10 +25,9 @@ class Tile {
 		void resetHealth();
 		void createDamageParticle();
 		void explode(int bombSize);
-                void drawCorners(SDL_Renderer *ren, Sprite &corner, Sprite &side, int id);
+                void drawCorners(Sprite &corner, Sprite &side, int id);
 	private:
-                void drawDamage(SDL_Renderer *ren, const SDL_Rect &rect, const float &mod);
-		tileSprites *sprites;
+                void drawDamage(const SDL_Rect &rect, const float &mod);
 		Map *m;
 };
 #endif

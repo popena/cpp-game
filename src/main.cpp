@@ -31,8 +31,8 @@ int main(int argc, char** argv)
 	SDL_Renderer *ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
 	tileSprites *sprites = new tileSprites(ren);
 	Menu menu(ren);
-	m = new Map(sprites);
-	Player *p = new Player(ren, m);
+	m = new Map(ren, sprites);
+	Player *p = new Player(m);
 	srand(time(NULL));
 
 
@@ -68,8 +68,8 @@ int main(int argc, char** argv)
                                 } while(diff >= UPDATESPERSECOND);
                         }
                         SDL_RenderClear(ren); 
-                        m->draw(ren);
-                        p->draw(ren);
+                        m->draw();
+                        p->draw();
                 } else {
                         SDL_RenderClear(ren); 
                         menu.draw();
