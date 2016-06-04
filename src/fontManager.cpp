@@ -6,7 +6,7 @@ FontManager::FontManager()
 {
 	big = TTF_OpenFont("Fonts/FreeMono.ttf", 70);
 	if (!big)
-		printf("TTF_OpenFont: %s\n", TTF_GetError());
+		printf("Loading font failed: %s\n", TTF_GetError());
 }
 
 void FontManager::showText(SDL_Renderer *ren, const char *text, SDL_Rect *rec)
