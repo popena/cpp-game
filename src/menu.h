@@ -2,28 +2,29 @@
 #define MENU_H
 
 #include "utils.h"
+#include "tileSprites.h"
+#include "fontManager.h"
 #include <vector>
 #include <string>
 
 typedef struct MenuItem {
 	std::string menuText;
-	float x, y;
-	float left, right, top, bottom;
-	float width, height;
+	SDL_Rect rect;
 } MenuItem;
 
 class Menu {
 	private:
 		std::vector<MenuItem> menuItems;
                 SDL_Renderer *ren;
+		tileSprites *sprites;
+		FontManager *fm;
 
 	public:
                 bool visible;
-		Menu(SDL_Renderer *ren);
+		Menu(SDL_Renderer *ren, tileSprites *sprites, FontManager *fm);
 		~Menu();
 		void addMenuItem(MenuItem item);
-		void addMenuItem(std::string menuText, float x, float y, float left,
-				float right, float top, float bottom, float width, float height);
+		void addMenuItem(std::string menuText, int x, int y, int width, int height);
 		void toggleMenu(void);
 		void destroyMenu(void);
 		void draw(void);

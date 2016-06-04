@@ -1,10 +1,13 @@
 #include "menu.h"
+#include "tileSprites.h"
 
 
-Menu::Menu(SDL_Renderer *ren)
+Menu::Menu(SDL_Renderer *ren, tileSprites *sprites, FontManager *fm)
 {
         visible = false;
         this->ren = ren;
+	this->sprites = sprites;
+	this->fm = fm;
 	//
 }
 
@@ -18,19 +21,14 @@ void Menu::addMenuItem(MenuItem item)
 	this->menuItems.push_back(item);
 }
 
-void Menu::addMenuItem(std::string menuText, float x, float y, float left, float right,
-					   float top, float bottom, float width, float height)
+void Menu::addMenuItem(std::string menuText, int x, int y, int width, int height)
 {
 	MenuItem tmp;
 	tmp.menuText = menuText;
-	tmp.x = x;
-	tmp.y = y;
-        tmp.left = left;
-        tmp.right = right;
-        tmp.top = top;
-        tmp.bottom = bottom;
-        tmp.width = width;
-        tmp.height = height;
+	tmp.rect.x = x;
+	tmp.rect.y = y;
+        tmp.rect.w = width;
+        tmp.rect.h = height;
         addMenuItem(tmp);
 }
 
@@ -56,8 +54,10 @@ void Menu::handleEvent(SDL_Event &e, int type)
 {
 }
 
-void Menu::drawMenuItem(MenuItem* item)
+void Menu::drawMenuItem(MenuItem *item)
 {
+	sprites->DEFAULT_BUTTON.draw(this->ren, &item->rect);
+	this->fm->showText(this->ren, item->menuText.c_str(), &item->rect);
 }
 
 void Menu::destroyMenu(void)

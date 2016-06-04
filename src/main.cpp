@@ -4,6 +4,7 @@
 #include "menu.h"
 #include "network.h"
 #include "packet.h"
+#include "fontManager.h"
 #include <iostream>
 #include <vector>
 #include <time.h>
@@ -27,10 +28,18 @@ int main(int argc, char** argv)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
         SDLNet_Init();
+	TTF_Init();
 	SDL_Window *win = SDL_CreateWindow("testgame", 100, 100, WIDTH, HEIGHT, 0);
 	SDL_Renderer *ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
 	tileSprites *sprites = new tileSprites(ren);
-	Menu menu(ren);
+
+	FontManager fm;
+
+	Menu menu(ren, sprites, &fm);
+	MenuItem test = {"Paused", {WIDTH / 2 - 100, 25, 200, 70}};
+	menu.addMenuItem(test);
+
+
 	m = new Map(ren, sprites);
 	Player *p = new Player(m);
 	srand(time(NULL));

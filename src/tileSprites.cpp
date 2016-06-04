@@ -23,6 +23,8 @@ tileSprites::tileSprites(SDL_Renderer *ren)
 	this->TNT.load(ren, "Images/tnt.png");
 	this->STONE_PARTICLE.load(ren, "Images/stone_particle.png");
 	this->DIRT_PARTICLE.load(ren, "Images/dirt_particle.png");
+
+	this->DEFAULT_BUTTON.load(ren, "Images/default_button.png");
 }
 
 Sprite *tileSprites::getSprite(int id)

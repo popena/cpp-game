@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -Wall -Werror -O2 -std=gnu++11
-LIBS = -lSDL2 -lSDL2_image -lSDL_net -pthread
+LIBS = -lSDL2 -lSDL2_image -lSDL_net -pthread -lSDL2_ttf
 
 SOURCES = $(wildcard src/*.cpp)
 OBJECTS = $(patsubst %.cpp, %.o, $(SOURCES))
