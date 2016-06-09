@@ -10,6 +10,8 @@
 typedef struct MenuItem {
 	std::string menuText;
 	SDL_Rect rect;
+	bool canFocus;
+	bool focus;
 } MenuItem;
 
 class Menu {
@@ -30,6 +32,8 @@ class Menu {
 		void draw(void);
                 void drawMenuItem(MenuItem* item);
                 void handleEvent(SDL_Event &e, int type);
+                void moveMenuFocus(int change);
+		unsigned int getFocusedElement();
 };
 
 #endif /* end of include guard: MENU_H */

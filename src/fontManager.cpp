@@ -19,3 +19,8 @@ void FontManager::showText(SDL_Renderer *ren, const char *text, SDL_Rect *rec)
 	SDL_FreeSurface(surfMessage);
 	SDL_DestroyTexture(texMessage);
 }
+
+FontManager::~FontManager()
+{
+	TTF_CloseFont(big);
+}

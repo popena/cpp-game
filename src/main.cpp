@@ -1,10 +1,12 @@
 #include "player.h"
 #include "map.h"
 #include "tileSprites.h"
-#include "menu.h"
 #include "network.h"
 #include "packet.h"
+
 #include "fontManager.h"
+#include "menuManager.h"
+
 #include <iostream>
 #include <vector>
 #include <time.h>
@@ -19,7 +21,7 @@ using namespace std;
 bool gameRunning = true;
 int lastUpdate = 0;
 const int UPDATESPERSECOND = 1000 / 45;
-inline void handleKeyboardEvent(SDL_Event &e, Menu *menu, Player *p);
+inline void handleKeyboardEvent(SDL_Event &e, MenuManager *mm, Player *p);
 void packetHandler();
 Map *m;
 Network net;
@@ -35,9 +37,8 @@ int main(int argc, char** argv)
 
 	FontManager fm;
 
-	Menu menu(ren, sprites, &fm);
-	MenuItem test = {"Paused", {WIDTH / 2 - 100, 25, 200, 70}};
-	menu.addMenuItem(test);
+
+	MenuManager mm(ren, sprites, &fm);
 
 
 	m = new Map(ren, sprites);
@@ -60,11 +61,11 @@ int main(int argc, char** argv)
 				gameRunning = false;
 				break;
 			} else if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
-                                handleKeyboardEvent(e, &menu, p);
+                                handleKeyboardEvent(e, &mm, p);
                         }
 		} 
 
-                if (!menu.visible) {
+                if (!mm.activeMenu) {
                         if(SDL_GetTicks() - lastUpdate >= UPDATESPERSECOND) {
                                 int now = SDL_GetTicks();
                                 int diff = now - lastUpdate - UPDATESPERSECOND;
@@ -81,7 +82,7 @@ int main(int argc, char** argv)
                         p->draw();
                 } else {
                         SDL_RenderClear(ren); 
-                        menu.draw();
+                        mm.draw();
                 }
 
 		SDL_RenderPresent(ren);
@@ -122,25 +123,28 @@ void packetHandler()
         }
 }
 
-inline void handleKeyboardEvent(SDL_Event &e, Menu *menu, Player *p)
+inline void handleKeyboardEvent(SDL_Event &e, MenuManager *mm, Player *p)
 {
 	int key = e.key.keysym.scancode;
         static bool escDown;
         if (e.type == SDL_KEYDOWN) {
-                if (!menu->visible)
+                if (!mm->activeMenu)
                         p->handleEvent(e, 0);
                 else
-                        menu->handleEvent(e, 0);
+                        mm->handleEvent(e, 0);
                 if (key == SDL_SCANCODE_ESCAPE && !escDown) {
                         p->resetKeys();
-                        menu->toggleMenu();
+			if (mm->activeMenu)
+				mm->closeMenu();
+			else
+				mm->openMenu(pauseMenu);
                         escDown = true;
                 }
         } else if (e.type == SDL_KEYUP) {
-                if (!menu->visible)
+                if (!mm->activeMenu)
                         p->handleEvent(e, 1);
                 else
-                        menu->handleEvent(e, 1);
+                        mm->handleEvent(e, 1);
                 if (key == SDL_SCANCODE_ESCAPE)
                         escDown = false;
         }

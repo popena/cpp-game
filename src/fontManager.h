@@ -8,6 +8,7 @@ class FontManager {
 
 	public:
 		FontManager();
+		~FontManager();
 		void showText(SDL_Renderer *ren, const char *text, SDL_Rect *rec);
 };
 #endif

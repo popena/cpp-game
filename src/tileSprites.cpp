@@ -25,6 +25,7 @@ tileSprites::tileSprites(SDL_Renderer *ren)
 	this->DIRT_PARTICLE.load(ren, "Images/dirt_particle.png");
 
 	this->DEFAULT_BUTTON.load(ren, "Images/default_button.png");
+	this->ACTIVE_BUTTON.load(ren, "Images/active_button.png");
 }
 
 Sprite *tileSprites::getSprite(int id)

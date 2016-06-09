@@ -26,6 +26,7 @@ class tileSprites {
 		Sprite DIRT_PARTICLE;
 
 		Sprite DEFAULT_BUTTON;
+		Sprite ACTIVE_BUTTON;
 
 		tileSprites(SDL_Renderer *ren);
 		Sprite *getSprite(int id);
