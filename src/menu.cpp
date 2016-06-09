@@ -81,10 +81,13 @@ void Menu::handleEvent(SDL_Event &e, int type)
 void Menu::moveMenuFocus(int change)
 {
 	unsigned int curFocus = getFocusedElement();
-	if (curFocus + change < 0 || curFocus + change > menuItems.size())
+	if (change == 0 || curFocus + change < 0 || curFocus + change > menuItems.size())
 		return;
 	if (!menuItems[curFocus + change].canFocus) {
-		moveMenuFocus(change + 1);
+		if (change > 0)
+			moveMenuFocus(change + 1);
+		else 
+			moveMenuFocus(change - 1);
 	} else {
 		menuItems[curFocus].focus = false;
 		menuItems[curFocus + change].focus = true;
