@@ -13,8 +13,6 @@
 #include <thread>
 #include <string>
 
-#include <SDL/SDL_net.h>
-
 
 using namespace std;
 
@@ -29,7 +27,6 @@ Network net;
 int main(int argc, char** argv)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
-        SDLNet_Init();
 	TTF_Init();
 	SDL_Window *win = SDL_CreateWindow("testgame", 100, 100, WIDTH, HEIGHT, 0);
 	SDL_Renderer *ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
@@ -46,13 +43,9 @@ int main(int argc, char** argv)
 	srand(time(NULL));
 
 
+	/* if (!net.initClient("127.0.0.1", 9001)) */
+	/* 	fprintf(stderr, "Unable to initialize multiplayer!\n"); */
 
-
-        if (net.connect("127.0.0.1", 9001)) {
-                net.sendMsg("test");
-                thread network(packetHandler);
-                network.detach();
-        }
 
 	while (gameRunning) {
 		SDL_Event e;
@@ -94,33 +87,6 @@ int main(int argc, char** argv)
 	SDL_DestroyWindow(win);
 
 	return 0;
-}
-
-
-void packetHandler()
-{
-        char *msg = NULL;
-        while (1) {
-                if (net.recvMsg(msg) != -1) {
-                        string sMsg = string(msg);
-                        cout << sMsg << endl;
-                        string *buff = new string[4];
-                        splitPacket(buff, sMsg);
-                        /* string test = "123,2,3,4"; */
-                        /* string buff[4]; */
-                        /* parsePacket2(test, buff, 4); */
-                        /* cout << buff[0] << endl; */
-                        /* int type = atoi(parsePacket(sMsg, 0).c_str()); */
-                        /* int x = atoi(parsePacket(sMsg, 1).c_str()); */
-                        /* int y = atoi(parsePacket(sMsg, 2).c_str()); */
-                        /* int tileType = atoi(parsePacket(sMsg, 2).c_str()); */
-                        /* m->tiles[x][y]->changeType(tileType); */
-                        delete [] buff;
-                } else {
-                        cout << "Connection lost" << endl;
-                        break;
-                }
-        }
 }
 
 inline void handleKeyboardEvent(SDL_Event &e, MenuManager *mm, Player *p)

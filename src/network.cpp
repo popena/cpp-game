@@ -1,73 +1,83 @@
 #include "network.h"
-#include <SDL/SDL_net.h>
 #include <iostream>
+#include <sys/socket.h>
+#include <arpa/inet.h>
 
 using namespace std;
 
-bool Network::connect(const char* ipAddress, int port)
+
+bool Network::initClient(const char *host, int port)
 {
-	if(SDLNet_ResolveHost(&ip, ipAddress, port)==-1)
-        {
-                printf("failed to resolve");
-                return false;
-        }
-	sock = SDLNet_TCP_Open(&ip);
-	if(!sock)
+	int status = 0;
+
+	if ((this->sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+		perror("Socket");
+		return false;
+	}
+
+	memset(&this->server, 0, sizeof(this->server));
+	this->server.sin_family = AF_INET;
+	this->server.sin_port = htons(port);
+	if (inet_aton(host, &this->server.sin_addr) == 0) {
+		perror(host);
+		return false;
+	}
+
+	if (connect(this->sockfd, (const sockaddr*)&this->server, 
+				sizeof(this->server)) == -1)
 	{
-		printf("SDLNet_TCP_Open: %s\n",SDLNet_GetError());
-                return false;
+		perror("Connect");
+		return false;
 	}
-        return true;
+
+	recv(sockfd, &status, sizeof(int), 0);
+	if (status == 0) {
+		fprintf(stderr, "Server is full!\n");
+		return false;
+	}
+
+	return true;
 }
 
-int Network::sendMsg(const char* msg)
+int Network::sendData(int packetType, void *packetData, size_t packetSize)
 {
-	uint32_t res, len = strlen(msg) + 1;
-	
-	res = SDLNet_TCP_Send(sock, &len, sizeof(len));
-	if (res < sizeof(len)) {
-		fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-		SDLNet_TCP_Close(sock);
-		return -1;
-	}
-
-	res = SDLNet_TCP_Send(sock, msg, len);
-	if (res < len) {
-		fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-		SDLNet_TCP_Close(sock);
-		return -1;
-	}
-
-	return res;
+	return send(this->sockfd, packetData, packetSize, 0);
 }
 
-int Network::recvMsg(char *&buf)
+int Network::recvData(void)
 {
-	uint32_t res, len;
+	ssize_t n;
+	uint8_t buffer[256], type;
 
-	if (buf) 
-        {
-	 	free(buf);
-                buf = NULL;
-        }
-	
-	res = SDLNet_TCP_Recv(sock, &len, sizeof(len));
-	if (res < sizeof(len))
-		goto error;
+	//FIXME: set non-blocking flag??
+	if ((n = recv(this->sockfd, (void*)buffer, 256, 0)) != -1) {
+		type = buffer[0];
 
-	buf = (char*)malloc(len);
-	if (!(buf))
-		return -1;
-	
-	res = SDLNet_TCP_Recv(sock, buf, len);
-	if (res < len)
-		goto error;
+		switch (type) {
+		case TILEMINE:
+			//TODO: tile was mined, update map
+			break;
 
-	return res;
-error:
-	if (buf)
-		free(buf);
-	fprintf(stderr, "SDLNet_TCP_Recv: %s\n", SDLNet_GetError());
-	SDLNet_TCP_Close(sock);
-	return -1;
+		case TILECHANGE:
+			//TODO: pass data to tileSprites(?)
+			break;
+
+		case CHAT:
+			//TODO: pass message to chat handler
+			//TODO: create chat handler
+			break;
+
+		case PLAYERPOS:
+			//TODO: update player's position
+			break;
+
+		case PLAYERS:
+			//TODO: new player joined or someone left?
+			//TODO: how are other players represented?
+			break;
+		}
+
+	}
+
+	return 1;
 }
