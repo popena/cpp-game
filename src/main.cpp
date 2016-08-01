@@ -2,7 +2,6 @@
 #include "map.h"
 #include "tileSprites.h"
 #include "network.h"
-#include "packet.h"
 
 #include "fontManager.h"
 #include "menuManager.h"
