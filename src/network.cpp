@@ -45,12 +45,9 @@ bool Network::initClient(const char *host, int port)
 
 int Network::sendData(uint8_t packetType, void *packetData, size_t packetSize)
 {
-	void *packet = malloc(packetSize + 1);
-	memmove(packet, &packetType, packetSize);
-	memmove(((uint8_t *)packet) + 1, packetData, packetSize);
-	int res = send(this->sockfd, packet, packetSize, 0);
-	free(packet);
-	return res;
+	this->buffer[0] = packetType;
+	memcpy(buffer + 1, packetData, packetSize); /* FIXME: is packetSize always less than 256?? */
+	return send(this->sockfd, buffer, packetSize, 0);
 }
 
 int Network::recvData(Map *m)

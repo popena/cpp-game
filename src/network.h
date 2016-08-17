@@ -22,6 +22,7 @@ class Network {
 	private:
 		int sockfd;
 		struct sockaddr_in server;
+		uint8_t buffer[256]; /* FIXME: DEFINE this somewhere?? */
 };
 
 #endif
