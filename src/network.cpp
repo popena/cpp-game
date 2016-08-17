@@ -35,7 +35,7 @@ bool Network::initClient(const char *host, int port)
 
 	recv(sockfd, &status, sizeof(int), 0);
 	if (status == 0) {
-		fprintf(stderr, "Server is full!\n");
+		cerr << "Server is full!\n";
 		return false;
 	}
 	connected = true;
@@ -53,20 +53,18 @@ int Network::sendData(uint8_t packetType, void *packetData, size_t packetSize)
 int Network::recvData(Map *m)
 {
 	ssize_t n;
-	void *buffer[256];
+	uint8_t buffer[256];
 	uint8_t type;
 
-	//FIXME: set non-blocking flag??
 	if ((n = recv(this->sockfd, (void*)buffer, 256, 0)) != -1) {
 		if (!m) //FIXME: First packet will be ignored because m will be NULL
 			return 0;
-		type = *((uint8_t*) buffer); /* Get first byte of the void
-		                                  pointer and cast it to uint8_t */
+		type = buffer[0];
 
 		switch (type) {
 		case TILECHANGE:
 		{
-			PACKET_TILECHANGE *p = (PACKET_TILECHANGE*) (((uint8_t*)buffer) + 1);
+			PACKET_TILECHANGE *p = (PACKET_TILECHANGE*)(buffer + 1);
 			if (m->insideBounds(p->x, p->y)) {
 				printf("recv:x,y,t:%d,%d,%d\n", p->x, p->y, p->type);
 				//FIXME: sometimes p->type is something unexpected and it will crash the client
@@ -84,6 +82,7 @@ int Network::recvData(Map *m)
 			break;
 
 		case PLAYERS:
+			//TODO: copy map to other players
 			//TODO: new player joined or someone left?
 			//TODO: how are other players represented?
 			break;
