@@ -53,29 +53,29 @@ int main(int argc, char** argv)
 				gameRunning = false;
 				break;
 			} else if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
-                                handleKeyboardEvent(e, &mm, p);
-                        }
+				handleKeyboardEvent(e, &mm, p);
+			}
 		} 
 
-                if (!mm.activeMenu) {
-                        if(SDL_GetTicks() - lastUpdate >= UPDATESPERSECOND) {
-                                int now = SDL_GetTicks();
-                                int diff = now - lastUpdate - UPDATESPERSECOND;
-                                do {
-                                        diff = now - lastUpdate - UPDATESPERSECOND;
-                                        p->update();
-                                        m->update();
-                                        now = SDL_GetTicks();
-                                        lastUpdate = now - diff;
-                                } while(diff >= UPDATESPERSECOND);
-                        }
-                        SDL_RenderClear(ren); 
-                        m->draw();
-                        p->draw();
-                } else {
-                        SDL_RenderClear(ren); 
-                        mm.draw();
-                }
+		if (!mm.activeMenu) {
+			if(SDL_GetTicks() - lastUpdate >= UPDATESPERSECOND) {
+				int now = SDL_GetTicks();
+				int diff = now - lastUpdate - UPDATESPERSECOND;
+				do {
+					diff = now - lastUpdate - UPDATESPERSECOND;
+					p->update();
+					m->update();
+					now = SDL_GetTicks();
+					lastUpdate = now - diff;
+				} while(diff >= UPDATESPERSECOND);
+			}
+			SDL_RenderClear(ren); 
+			m->draw();
+			p->draw();
+		} else {
+			SDL_RenderClear(ren); 
+			mm.draw();
+		}
 
 		SDL_RenderPresent(ren);
 	}
@@ -91,26 +91,26 @@ int main(int argc, char** argv)
 inline void handleKeyboardEvent(SDL_Event &e, MenuManager *mm, Player *p)
 {
 	int key = e.key.keysym.scancode;
-        static bool escDown;
-        if (e.type == SDL_KEYDOWN) {
-                if (!mm->activeMenu)
-                        p->handleEvent(e, 0);
-                else
-                        mm->handleEvent(e, 0);
-                if (key == SDL_SCANCODE_ESCAPE && !escDown) {
-                        p->resetKeys();
+	static bool escDown;
+	if (e.type == SDL_KEYDOWN) {
+		if (!mm->activeMenu)
+			p->handleEvent(e, 0);
+		else
+			mm->handleEvent(e, 0);
+		if (key == SDL_SCANCODE_ESCAPE && !escDown) {
+			p->resetKeys();
 			if (mm->activeMenu)
 				mm->closeMenu();
 			else
 				mm->openMenu(pauseMenu);
-                        escDown = true;
-                }
-        } else if (e.type == SDL_KEYUP) {
-                if (!mm->activeMenu)
-                        p->handleEvent(e, 1);
-                else
-                        mm->handleEvent(e, 1);
-                if (key == SDL_SCANCODE_ESCAPE)
-                        escDown = false;
-        }
+			escDown = true;
+		}
+	} else if (e.type == SDL_KEYUP) {
+		if (!mm->activeMenu)
+			p->handleEvent(e, 1);
+		else
+			mm->handleEvent(e, 1);
+		if (key == SDL_SCANCODE_ESCAPE)
+			escDown = false;
+	}
 }

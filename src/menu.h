@@ -17,12 +17,12 @@ typedef struct MenuItem {
 class Menu {
 	private:
 		std::vector<MenuItem> menuItems;
-                SDL_Renderer *ren;
+		SDL_Renderer *ren;
 		tileSprites *sprites;
 		FontManager *fm;
 
 	public:
-                bool visible;
+		bool visible;
 		Menu(SDL_Renderer *ren, tileSprites *sprites, FontManager *fm);
 		~Menu();
 		void addMenuItem(MenuItem item);
@@ -30,9 +30,9 @@ class Menu {
 		void toggleMenu(void);
 		void destroyMenu(void);
 		void draw(void);
-                void drawMenuItem(MenuItem* item);
-                void handleEvent(SDL_Event &e, int type);
-                void moveMenuFocus(int change);
+		void drawMenuItem(MenuItem* item);
+		void handleEvent(SDL_Event &e, int type);
+		void moveMenuFocus(int change);
 		unsigned int getFocusedElement();
 };
 

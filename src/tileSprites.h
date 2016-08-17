@@ -11,13 +11,13 @@ class tileSprites {
 		Sprite DAMAGE_3;
 
 		Sprite SIDE;
-                Sprite SIDE_STONE;
+		Sprite SIDE_STONE;
 
 		Sprite CORNER;
 		Sprite CORNER_STONE;
 
-                Sprite STONE_GOLD;
-                
+		Sprite STONE_GOLD;
+		
 		Sprite STONE;
 		Sprite DIRT;
 		Sprite AIR;

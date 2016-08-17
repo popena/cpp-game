@@ -32,7 +32,7 @@ void Sprite::draw(SDL_Renderer *ren, const SDL_Rect *pos)
 
 void Sprite::draw(SDL_Renderer *ren, const SDL_Rect *pos, double angle)
 {
-        SDL_RenderCopyEx(ren, spriteTex, NULL, pos, angle, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(ren, spriteTex, NULL, pos, angle, NULL, SDL_FLIP_NONE);
 }
 
 void Sprite::draw(SDL_Renderer *ren, const SDL_Rect *pos, char r, char g, char b)

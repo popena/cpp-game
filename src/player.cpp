@@ -80,10 +80,10 @@ void Player::handleEvent(const SDL_Event &e, int type)
 
 void Player::resetKeys()
 {
-        wDown = false;
-        dDown = false;
-        sDown = false;
-        aDown = false;
+	wDown = false;
+	dDown = false;
+	sDown = false;
+	aDown = false;
 }
 
 void Player::move(int rx, int ry)
@@ -97,7 +97,7 @@ void Player::move(int rx, int ry)
 			}
 		} else {
 			if (m->tiles[x + rx][y + ry]->takeDamage(5) &&
-                                m->tiles[x + rx][y + ry]->type == STONE_GOLDID) // if gold destroyed
+				m->tiles[x + rx][y + ry]->type == STONE_GOLDID) // if gold destroyed
 					this->currency += 250;
 		}
 	}
@@ -107,15 +107,15 @@ void Player::update()
 {
 	if(wDown) {
 		move(0, -1);
-                direction = 0;
+		direction = 0;
 	} if(dDown) { 
 		move(1, 0);
-                direction = 1;
+		direction = 1;
 	} if (sDown) {
 		move(0, 1);
-                direction = 2;
+		direction = 2;
 	} if (aDown) {
 		move(-1, 0);
-                direction = 3;
+		direction = 3;
 	}
 }

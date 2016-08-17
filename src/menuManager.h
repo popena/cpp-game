@@ -16,7 +16,7 @@ enum menuType {
 class MenuManager {
 	private:
 		std::vector<Menu> menus;
-                SDL_Renderer *ren;
+		SDL_Renderer *ren;
 		tileSprites *sprites;
 		FontManager *fm;
 	public:
@@ -28,7 +28,7 @@ class MenuManager {
 		void init();
 		void addMenu(Menu menu);
 		void draw();
-                void handleEvent(SDL_Event &e, int type);
+		void handleEvent(SDL_Event &e, int type);
 };
 
 #endif

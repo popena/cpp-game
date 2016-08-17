@@ -23,12 +23,12 @@ void Tile::update()
 
 bool Tile::isBomb()
 {
-        return (type == TNTID);
+	return (type == TNTID);
 }
 
 bool Tile::isDirt()
 {
-        return (type == DIRTID);
+	return (type == DIRTID);
 }
 
 bool Tile::isStone()
@@ -75,7 +75,7 @@ void Tile::createDamageParticle()
 {
     Sprite *s = &m->sprites->STONE_PARTICLE;
     if (this->type == DIRTID)
-        s = &m->sprites->DIRT_PARTICLE;
+	s = &m->sprites->DIRT_PARTICLE;
     Particle p(s, (float)x * TILE_SIZE + TILE_SIZE / 2, (float)y * TILE_SIZE + TILE_SIZE / 2, rand() % 250 + 25);
     m->particles.push_back(p);
 }
@@ -83,17 +83,17 @@ void Tile::createDamageParticle()
 bool Tile::takeDamage(int dmg)
 {
 	if (dmg <= 0)
-                return false;
+		return false;
 	if (!isBomb() && this->type != AIRID) {
-                if (rand() % (250 / dmg + 1) == 0) {
-                    createDamageParticle();
-                }
+		if (rand() % (250 / dmg + 1) == 0) {
+		    createDamageParticle();
+		}
 	}
 	if (this->type != AIRID)
 		this->health -= dmg;
 	if (this->health < 0) {
 		if (isBomb()) {
-                        explode(16);
+			explode(16);
 		}
 		this->changeType(AIRID);
 		return true;
@@ -104,28 +104,28 @@ bool Tile::takeDamage(int dmg)
 void Tile::explode(int bombSize)
 {
     for (int y = 0; y < bombSize; y++) {
-        for (int x = 0; x < bombSize; x++) {
-            int totalx = x + this->x - bombSize / 2;
-            int totaly = y + this->y - bombSize / 2;
-            if ((totalx != this->x || totaly != this->y) && m->insideBounds(totalx, totaly)) {
-                float dist = (float)sqrt(pow(totalx - this->x, 2) + pow(totaly - this->y, 2));
-                float dmg = (float)bombSize / (float)dist;
-                dmg = std::min(pow(dmg / 2, 6), 1000.0) * 10;
-                this->changeType(AIRID);
-                m->tiles[totalx][totaly]->takeDamage((int)dmg);
-            }
-        }
+	for (int x = 0; x < bombSize; x++) {
+	    int totalx = x + this->x - bombSize / 2;
+	    int totaly = y + this->y - bombSize / 2;
+	    if ((totalx != this->x || totaly != this->y) && m->insideBounds(totalx, totaly)) {
+		float dist = (float)sqrt(pow(totalx - this->x, 2) + pow(totaly - this->y, 2));
+		float dmg = (float)bombSize / (float)dist;
+		dmg = std::min(pow(dmg / 2, 6), 1000.0) * 10;
+		this->changeType(AIRID);
+		m->tiles[totalx][totaly]->takeDamage((int)dmg);
+	    }
+	}
     }
 }
 
 void Tile::drawDamage(const SDL_Rect &rect, const float &mod)
 {
-        if (mod <= 0.3)
-                m->sprites->DAMAGE_3.draw(m->ren, &rect);
-        else if (mod <= 0.6)
-                m->sprites->DAMAGE_2.draw(m->ren, &rect);
-        else if (mod <= 0.9)
-                m->sprites->DAMAGE_1.draw(m->ren, &rect);
+	if (mod <= 0.3)
+		m->sprites->DAMAGE_3.draw(m->ren, &rect);
+	else if (mod <= 0.6)
+		m->sprites->DAMAGE_2.draw(m->ren, &rect);
+	else if (mod <= 0.9)
+		m->sprites->DAMAGE_1.draw(m->ren, &rect);
 }
 
 void Tile::drawCorners(Sprite &corner, Sprite &side, int id)
@@ -135,30 +135,30 @@ void Tile::drawCorners(Sprite &corner, Sprite &side, int id)
 	rect.y = y * TILE_SIZE;
 	rect.w = TILE_SIZE;
 	rect.h = TILE_SIZE;
-        bool airDown = (y > 0 && m->getTile(this->x, this->y - 1)->type == id);
-        bool airTop = (y < HEIGHT_TILES - 1 && m->getTile(this->x, this->y + 1)->type == id);
-        bool airRight = (x > 0 && m->getTile(this->x - 1, this->y)->type == id);
-        bool airLeft = (x < WIDTH_TILES - 1 && m->getTile(this->x + 1, this->y)->type == id);
-        if (airDown) {
-                side.draw(m->ren, &rect, 0.0);
-                if (airRight) 
-                        corner.draw(m->ren, &rect, 0.0);
-        }
-        if (airTop) {
-                side.draw(m->ren, &rect, 180.0);
-                if (airLeft) 
-                        corner.draw(m->ren, &rect, 180.0);
-        }
-        if (airRight) {
-                side.draw(m->ren, &rect, 270.0);
-                if (airTop) 
-                        corner.draw(m->ren, &rect, 270.0);
-        }
-        if (airLeft) {
-                side.draw(m->ren, &rect, 90.0);
-                if (airDown) 
-                        corner.draw(m->ren, &rect, 90.0);
-        }
+	bool airDown = (y > 0 && m->getTile(this->x, this->y - 1)->type == id);
+	bool airTop = (y < HEIGHT_TILES - 1 && m->getTile(this->x, this->y + 1)->type == id);
+	bool airRight = (x > 0 && m->getTile(this->x - 1, this->y)->type == id);
+	bool airLeft = (x < WIDTH_TILES - 1 && m->getTile(this->x + 1, this->y)->type == id);
+	if (airDown) {
+		side.draw(m->ren, &rect, 0.0);
+		if (airRight) 
+			corner.draw(m->ren, &rect, 0.0);
+	}
+	if (airTop) {
+		side.draw(m->ren, &rect, 180.0);
+		if (airLeft) 
+			corner.draw(m->ren, &rect, 180.0);
+	}
+	if (airRight) {
+		side.draw(m->ren, &rect, 270.0);
+		if (airTop) 
+			corner.draw(m->ren, &rect, 270.0);
+	}
+	if (airLeft) {
+		side.draw(m->ren, &rect, 90.0);
+		if (airDown) 
+			corner.draw(m->ren, &rect, 90.0);
+	}
 }
 
 void Tile::draw()
@@ -173,18 +173,18 @@ void Tile::draw()
 	if (mod != 1) {
 		if (isBomb()) {
 			sprite->draw(m->ren, &rect, 255, 255 * mod, 255 * mod);
-                } else {
+		} else {
 			sprite->draw(m->ren, &rect);
-                        drawDamage(rect, mod);
-                }
+			drawDamage(rect, mod);
+		}
 	} else {
 		sprite->draw(m->ren, &rect);
 	}
-        if (this->type != AIRID && !isBomb()) {
-                drawCorners(m->sprites->CORNER, m->sprites->SIDE, AIRID);
-                if (!isStone()) {
-                        drawCorners(m->sprites->CORNER_STONE, m->sprites->SIDE_STONE, STONEID);
-                        drawCorners(m->sprites->CORNER_STONE, m->sprites->SIDE_STONE, STONE_GOLDID);
-                }
-        }
+	if (this->type != AIRID && !isBomb()) {
+		drawCorners(m->sprites->CORNER, m->sprites->SIDE, AIRID);
+		if (!isStone()) {
+			drawCorners(m->sprites->CORNER_STONE, m->sprites->SIDE_STONE, STONEID);
+			drawCorners(m->sprites->CORNER_STONE, m->sprites->SIDE_STONE, STONE_GOLDID);
+		}
+	}
 }

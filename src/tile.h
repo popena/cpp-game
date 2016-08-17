@@ -25,9 +25,9 @@ class Tile {
 		void resetHealth();
 		void createDamageParticle();
 		void explode(int bombSize);
-                void drawCorners(Sprite &corner, Sprite &side, int id);
+		void drawCorners(Sprite &corner, Sprite &side, int id);
 	private:
-                void drawDamage(const SDL_Rect &rect, const float &mod);
+		void drawDamage(const SDL_Rect &rect, const float &mod);
 		Map *m;
 };
 #endif

@@ -16,6 +16,6 @@ enum tiles {
 	TNTID,
 	STONE_PARTICLEID,
 	DIRT_PARTICLEID,
-        STONE_GOLDID
+	STONE_GOLDID
 };
 #endif

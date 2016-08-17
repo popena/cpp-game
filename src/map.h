@@ -21,13 +21,13 @@ class Map {
 		void draw();
 		void update();
 		bool insideBounds(int x, int y);
-                Tile* getTile(int x, int y);
-                void createBlob(int ox, int oy, int size, int type, int topOf);
-                bool nextTo(int ox, int oy, int tile, int range);
+		Tile* getTile(int x, int y);
+		void createBlob(int ox, int oy, int size, int type, int topOf);
+		bool nextTo(int ox, int oy, int tile, int range);
 
 		SDL_Renderer *ren;
 		tileSprites *sprites;
 	private:
-                
+		
 };
 #endif
