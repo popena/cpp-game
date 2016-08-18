@@ -1,22 +1,19 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 #include "utils.h"
+#include "map.h"
 #include <netinet/in.h>
 
+class Map;
 class Network {
 	public:
+		bool connected = false;
 		bool initClient(const char *host, int port);
-		int sendData(int packetType, void *packetData, size_t packetSize);
-		int recvData(void);
-
-		typedef struct packet_t {
-			uint8_t type;
-			void *data; //FIXME: no void pointers
-		} packet_t;
+		int sendData(uint8_t packetType, void *packetData, size_t packetSize);
+		int recvData(Map *map);
 
 		enum packetTypes {
-			TILEMINE = 0,
-			TILECHANGE,
+			TILECHANGE=0,
 			CHAT,
 			PLAYERPOS,
 			PLAYERS

@@ -33,17 +33,23 @@ int main(int argc, char** argv)
 
 	FontManager fm;
 
-
 	MenuManager mm(ren, sprites, &fm);
+	m = NULL;
 
+	if (net.initClient("127.0.0.1", 9001)) {
+		thread net_thread(packetHandler);
+		net_thread.detach();
+	} else {
+	 	fprintf(stderr, "Unable to initialize multiplayer!\n");
+	}
 
-	m = new Map(ren, sprites);
+	m = new Map(ren, sprites, &net);
 	Player *p = new Player(m);
 	srand(time(NULL));
 
 
-	/* if (!net.initClient("127.0.0.1", 9001)) */
-	/* 	fprintf(stderr, "Unable to initialize multiplayer!\n"); */
+
+	
 
 
 	while (gameRunning) {
@@ -86,6 +92,13 @@ int main(int argc, char** argv)
 	SDL_DestroyWindow(win);
 
 	return 0;
+}
+
+void packetHandler(void)
+{
+	while (true) {
+		net.recvData(m);
+	}
 }
 
 inline void handleKeyboardEvent(SDL_Event &e, MenuManager *mm, Player *p)

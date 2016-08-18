@@ -3,10 +3,11 @@
 #include "map.h"
 #include "tile.h"
 #include "tileSprites.h"
+#include "network.h"
 
-Map::Map(SDL_Renderer *ren, tileSprites *sprites) 
+Map::Map(SDL_Renderer *ren, tileSprites *sprites, Network *net) 
 {
-	init(ren, sprites);
+	init(ren, sprites, net);
 }
 
 Map::~Map()
@@ -18,8 +19,9 @@ Map::~Map()
 	}
 }
 
-void Map::init(SDL_Renderer *ren, tileSprites *sprites)
+void Map::init(SDL_Renderer *ren, tileSprites *sprites, Network *net)
 {
+	this->net = net;
 	for (int x = 0; x < mapWidth; x++) {
 		for (int y = 0; y < mapHeight; y++) {
 			Tile *t = new Tile(x, y, DIRTID, this);

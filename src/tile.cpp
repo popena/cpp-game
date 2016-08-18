@@ -2,6 +2,8 @@
 #include "tileSprites.h"
 #include "map.h"
 #include "particle.h"
+#include "packetTypes.h"
+#include "network.h"
 #include <iostream>
 #include <algorithm>
 
@@ -96,6 +98,10 @@ bool Tile::takeDamage(int dmg)
 			explode(16);
 		}
 		this->changeType(AIRID);
+		if (m->net->connected) {
+			PACKET_TILECHANGE p = {x, y, 0};
+			m->net->sendData(m->net->TILECHANGE, &p, sizeof(p));
+		}
 		return true;
 	}
 	return false;

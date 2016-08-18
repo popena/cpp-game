@@ -4,10 +4,12 @@
 #include "tileSprites.h"
 #include "particle.h"
 #include "tile.h"
+#include "network.h"
 #include <vector>
 
 
 class Tile;
+class Network;
 class Map {
 	public:
 		std::vector<Particle> particles;
@@ -15,9 +17,9 @@ class Map {
 		static const int mapHeight = HEIGHT_TILES;
 		Tile *tiles[mapWidth][mapHeight];
 
-		Map(SDL_Renderer *ren, tileSprites *sprites);
+		Map(SDL_Renderer *ren, tileSprites *sprites, Network *net);
 		~Map();
-		void init(SDL_Renderer *ren, tileSprites *sprites);
+		void init(SDL_Renderer *ren, tileSprites *sprites, Network *net);
 		void draw();
 		void update();
 		bool insideBounds(int x, int y);
@@ -27,6 +29,7 @@ class Map {
 
 		SDL_Renderer *ren;
 		tileSprites *sprites;
+		Network *net;
 	private:
 		
 };
