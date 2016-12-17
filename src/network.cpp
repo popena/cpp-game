@@ -46,7 +46,7 @@ bool Network::initClient(const char *host, int port)
 int Network::sendData(void *packetData, size_t packetSize)
 {
 	this->buffer[0] = ((uint8_t*)packetData)[0];
-	memcpy(buffer + 1, packetData, packetSize); /* FIXME: is packetSize always less than 256?? */
+	memcpy(buffer + 1, packetData, packetSize);
 	return send(this->sockfd, buffer, packetSize + 1, 0);
 }
 
@@ -65,7 +65,6 @@ int Network::recvData(Map *m)
 				PACKET_TILECHANGE *p = (PACKET_TILECHANGE*)(buffer);
 				printf("recv:x,y,t:%d,%d,%d\n", p->x, p->y, p->type);
 				if (m->insideBounds(p->x, p->y)) {
-					//FIXME: sometimes p->type is something unexpected and it will crash the client
 					m->tiles[p->x][p->y]->type = p->type;
 				}
 			}
