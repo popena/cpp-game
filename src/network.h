@@ -9,7 +9,7 @@ class Network {
 	public:
 		bool connected = false;
 		bool initClient(const char *host, int port);
-		int sendData(uint8_t packetType, void *packetData, size_t packetSize);
+		int sendData(void *packetData, size_t packetSize);
 		int recvData(Map *map);
 
 		enum packetTypes {

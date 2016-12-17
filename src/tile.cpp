@@ -99,8 +99,8 @@ bool Tile::takeDamage(int dmg)
 		}
 		this->changeType(AIRID);
 		if (m->net->connected) {
-			PACKET_TILECHANGE p = {x, y, 0};
-			m->net->sendData(m->net->TILECHANGE, &p, sizeof(p));
+			PACKET_TILECHANGE p = {0, x, y};
+			m->net->sendData(&p, sizeof(p));
 		}
 		return true;
 	}

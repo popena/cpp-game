@@ -1,5 +1,5 @@
 typedef struct PACKET_TILECHANGE {
+	uint8_t type;
 	int x;
 	int y;
-	int type;
 } PACKET_TILECHANGE;

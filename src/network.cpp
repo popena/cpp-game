@@ -43,11 +43,11 @@ bool Network::initClient(const char *host, int port)
 	return true;
 }
 
-int Network::sendData(uint8_t packetType, void *packetData, size_t packetSize)
+int Network::sendData(void *packetData, size_t packetSize)
 {
-	this->buffer[0] = packetType;
+	this->buffer[0] = ((uint8_t*)packetData)[0];
 	memcpy(buffer + 1, packetData, packetSize); /* FIXME: is packetSize always less than 256?? */
-	return send(this->sockfd, buffer, packetSize, 0);
+	return send(this->sockfd, buffer, packetSize + 1, 0);
 }
 
 int Network::recvData(Map *m)
@@ -55,20 +55,19 @@ int Network::recvData(Map *m)
 	ssize_t n;
 	uint8_t buffer[256];
 	uint8_t type;
-
-	if ((n = recv(this->sockfd, (void*)buffer, 256, 0)) != -1) {
-		if (!m) //FIXME: First packet will be ignored because m will be NULL
-			return 0;
-		type = buffer[0];
-
+	if (recv(this->sockfd, &type, sizeof(uint8_t), MSG_WAITALL)) {
 		switch (type) {
 		case TILECHANGE:
 		{
-			PACKET_TILECHANGE *p = (PACKET_TILECHANGE*)(buffer + 1);
-			if (m->insideBounds(p->x, p->y)) {
+			if ((n = recv(this->sockfd, (void*)buffer, sizeof(PACKET_TILECHANGE), MSG_WAITALL)) != -1) {
+				if (!m) //FIXME: First packet will be ignored because m will be NULL
+					return 0;
+				PACKET_TILECHANGE *p = (PACKET_TILECHANGE*)(buffer);
 				printf("recv:x,y,t:%d,%d,%d\n", p->x, p->y, p->type);
-				//FIXME: sometimes p->type is something unexpected and it will crash the client
-				m->tiles[p->x][p->y]->type = p->type;
+				if (m->insideBounds(p->x, p->y)) {
+					//FIXME: sometimes p->type is something unexpected and it will crash the client
+					m->tiles[p->x][p->y]->type = p->type;
+				}
 			}
 			break;
 		}
