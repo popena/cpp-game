@@ -1,15 +1,19 @@
 CXX = g++
-CXXFLAGS = -Wall -Werror -O2 -std=gnu++11
-LIBS = -lSDL2 -lSDL2_image -pthread -lSDL2_ttf
+CXXFLAGS = -Wall -Werror -O2 -std=gnu++11 -g
+LDFLAGS = -lSDL2 -lSDL2_image -pthread -lSDL2_ttf
+SOURCES=$(wildcard src/*.cpp)
+OBJECTS=$(addprefix obj/,$(notdir $(SOURCES:.cpp=.o)))
 
-SOURCES = $(wildcard src/*.cpp)
-OBJECTS = $(patsubst %.cpp, %.o, $(SOURCES))
-TARGET = main
+all: main
 
-all: $(TARGET)
+main: $(OBJECTS)
+	$(CXX) $(LDFLAGS) -o $@ $^
 
-$(TARGET): $(OBJECTS)
-	$(CXX) -o $@ $(OBJECTS) $(LIBS)
+obj/%.o: src/%.cpp | obj
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+obj:
+	@mkdir -p $@
 
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+	rm -rf obj main
